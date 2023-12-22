@@ -1,0 +1,63 @@
+sudo yabai --load-sa
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
+
+# global settings
+yabai -m config focus_follows_mouse          autoraise
+yabai -m config window_placement             second_child
+yabai -m config window_topmost               off
+yabai -m config window_shadow                on
+yabai -m config window_opacity               off
+# yabai -m config window_opacity_duration      0.0
+yabai -m config active_window_opacity        1.0
+yabai -m config normal_window_opacity        0.90
+yabai -m config window_border                off
+yabai -m config window_border_width          6
+yabai -m config active_window_border_color   0xff775759
+yabai -m config normal_window_border_color   0xff555555
+yabai -m config insert_feedback_color        0xffd75f5f
+yabai -m config split_ratio                  0.50
+yabai -m config auto_balance                 off
+yabai -m config mouse_modifier               fn
+yabai -m config mouse_action1                move
+yabai -m config mouse_action2                resize
+yabai -m config mouse_drop_action            swap
+yabai -m config mouse_follows_focus          on
+
+# general space settings
+yabai -m config layout                       bsp
+yabai -m config top_padding                  10
+yabai -m config bottom_padding               10
+yabai -m config left_padding                 10
+yabai -m config right_padding                10
+yabai -m config window_gap                   06
+
+# set names for spaces
+yabai -m space 1 --label i
+yabai -m space 2 --label ii
+yabai -m space 3 --label iii
+yabai -m space 4 --label iv
+yabai -m space 5 --label v
+
+yabai -m rule --add app="^System Preferences$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^JetBrains Toolbox$" manage=off
+yabai -m rule --add app="^Simulator$" manage=off
+
+yabai -m rule --add app="Slack" space=1
+yabai -m rule --add app="Microsoft Teams" space=1
+yabai -m rule --add app="Microsoft Outlook" space=1
+yabai -m rule --add app="Discord" space=1
+
+yabai -m rule --add app="Firefox" space=2
+
+yabai -m rule --add app="Godot" manage=off space=3
+yabai -m rule --add app="Code" space=3
+yabai -m rule --add app="IntelliJ IDEA" space=3
+
+yabai -m rule --add app="Lens" space=4
+yabai -m rule --add app="MQTTX" space=4
+yabai -m rule --add app="Postman" space=4
+
+
+echo "yabai configuration loaded.."
