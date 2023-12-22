@@ -66,6 +66,7 @@ in
       "tailscale"
       "mqttx"
       "openlens"
+      "postman"
     ];
   };
 }
