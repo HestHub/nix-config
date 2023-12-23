@@ -83,6 +83,7 @@
       ".flattened-pom.xml"
       "*.tgz"
       "*.lock"
+      "!flake.lock"
       "bin/"
       "build/"
       "out/"

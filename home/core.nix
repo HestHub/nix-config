@@ -51,7 +51,7 @@
 
     ssh = {
       enable = true;
-      # TODO enable 
+      addKeysToAgent = "yes";
     };
 
     navi.enable = true;

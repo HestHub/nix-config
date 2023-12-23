@@ -1,3 +1,5 @@
+include .env
+export
 
 darwin:
 	nix build .#darwinConfigurations.mbp.system \
@@ -5,23 +7,20 @@ darwin:
 
 	./result/sw/bin/darwin-rebuild switch --impure --flake .#mbp
 
-darwin-debug:
-	nix build .#darwinConfigurations.mbp.system --show-trace --verbose \
-		--extra-experimental-features 'nix-command flakes'
-
-	./result/sw/bin/darwin-rebuild switch --flake .#mbp --show-trace --verbose
-
 bootstrap:
+# 	install nix
 	curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-
+# 	install homebrew
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-
-setup-ssh:
-# 	generate ssh keys for diffrent folders 
-#	ssh-keygen -t rsa -b 4096 -C "Email"
-#	promt password, return pubkey to clipboard
-
+generate_keys:
+	ssh-keygen -t ed25519 -C "$$M_MAIL" -f ~/.ssh/$$M_ID -N $$PASSWORD
+	ssh-keygen -t rsa -C "$$G_MAIL" -f ~/.ssh/$$G_ID -N $$PASSWORD
+	ssh-keygen -t ed25519 -C "$$C_MAIL" -f ~/.ssh/$$C_ID -N $$PASSWORD
+	ssh-add --apple-use-keychain ~/.ssh/$$M_ID
+	ssh-add --apple-use-keychain ~/.ssh/$$C_ID
+	ssh-add --apple-use-keychain ~/.ssh/$$G_ID
+	
 post-fix:
 #	 add fish to available shell if not already present
 	if ! grep -q "/etc/profiles/per-user/hest/bin/fish" /etc/shells; then echo "hello"; fi
