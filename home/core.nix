@@ -13,18 +13,6 @@
     k9s
     jc
     dotnetPackages.Nuget
-    # All things fish
-    #---------------------
-    fish
-    fishPlugins.autopair
-    fishPlugins.done
-    fishPlugins.fzf
-    fishPlugins.grc
-    fishPlugins.sponge
-    fishPlugins.z
-    fzf
-    grc
-    #---------------------
   ];
 
   programs = {

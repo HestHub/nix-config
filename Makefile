@@ -13,7 +13,7 @@ bootstrap:
 # 	install homebrew
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-generate_keys:
+ssh_keys:
 	ssh-keygen -t ed25519 -C "$$M_MAIL" -f ~/.ssh/$$M_ID -N $$PASSWORD
 	ssh-keygen -t rsa -C "$$G_MAIL" -f ~/.ssh/$$G_ID -N $$PASSWORD
 	ssh-keygen -t ed25519 -C "$$C_MAIL" -f ~/.ssh/$$C_ID -N $$PASSWORD
@@ -31,6 +31,7 @@ post-fix:
 #	copy iterm config to dynamic profiles if not already present
 #   .dotfiles/iterm2.json -> /Users/hest/Library/Application Support/iTerm2/DynamicProfiles
 
+#   rtx add plugins and install them
 update:
 	nix flake update
 

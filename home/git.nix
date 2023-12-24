@@ -4,17 +4,17 @@
   pkgs,
   ...
 }: {
- home.activation.removeExistingGitconfig = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
+  home.activation.removeExistingGitconfig = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
     rm -f ~/.gitconfig
   '';
 
   programs.git = {
     enable = true;
     lfs.enable = true;
-    diff-so-fancy.enable = true;  
+    diff-so-fancy.enable = true;
 
     includes = [
-       {
+      {
         condition = "gitdir:${builtins.getEnv "M_DIR"}";
         contents = {
           core.sshCommand = "ssh -i ~/.ssh/${builtins.getEnv "M_ID"}";
@@ -51,7 +51,6 @@
       push.autoSetupRemote = true;
       pull.rebase = true;
     };
-
 
     aliases = {
       br = "branch";

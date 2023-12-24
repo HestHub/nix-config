@@ -4,16 +4,28 @@
   pkgs,
   ...
 }: {
+  home.packages = with pkgs; [
+    fish
+    fzf
+    grc
+    fishPlugins.autopair
+    fishPlugins.done
+    fishPlugins.fzf
+    fishPlugins.grc
+    fishPlugins.sponge
+    fishPlugins.z
+  ];
+
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
-          set fish_greeting # Disable greeting
-          abbr -a -- .. "cd .."
-          abbr -a -- ... "cd ../.."
-          abbr -a -- .... "cd ../../.."
-          abbr -a -- ..... "cd ../../../.."
-          abbr -a -- - "cd -"
-        '';
+      set fish_greeting # Disable greeting
+      abbr -a -- .. "cd .."
+      abbr -a -- ... "cd ../.."
+      abbr -a -- .... "cd ../../.."
+      abbr -a -- ..... "cd ../../../.."
+      abbr -a -- - "cd -"
+    '';
     shellAbbrs = {
       k = "kubectl";
       g = "git";
@@ -28,18 +40,36 @@
         body = "__fish_default_command_not_found_handler $argv[1]";
         onEvent = "fish_command_not_found";
       };
-      
+
       gitignore = "curl -sL https://www.gitignore.io/api/$argv";
     };
 
     plugins = [
       # TODO add plugin https://github.com/Gazorby/fish-abbreviation-tips
-      { name = "autopair"; src = pkgs.fishPlugins.autopair.src; }
-      { name = "done"; src = pkgs.fishPlugins.done.src; }
-      { name = "fzf"; src = pkgs.fishPlugins.fzf.src; }
-      { name = "grc"; src = pkgs.fishPlugins.grc.src; }
-      { name = "sponge"; src = pkgs.fishPlugins.sponge.src; }
-      { name = "z"; src = pkgs.fishPlugins.z.src; }
+      {
+        name = "autopair";
+        src = pkgs.fishPlugins.autopair.src;
+      }
+      {
+        name = "done";
+        src = pkgs.fishPlugins.done.src;
+      }
+      {
+        name = "fzf";
+        src = pkgs.fishPlugins.fzf.src;
+      }
+      {
+        name = "grc";
+        src = pkgs.fishPlugins.grc.src;
+      }
+      {
+        name = "sponge";
+        src = pkgs.fishPlugins.sponge.src;
+      }
+      {
+        name = "z";
+        src = pkgs.fishPlugins.z.src;
+      }
     ];
   };
 }

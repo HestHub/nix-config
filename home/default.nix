@@ -14,7 +14,7 @@ in {
 
     stateVersion = "23.05";
   };
-  # might be dangerous on macos ? 
+  # might be dangerous on macos ?
   xdg.enable = true;
   xdg.configHome = "/Users/${username}/.config";
   programs.home-manager.enable = true;
