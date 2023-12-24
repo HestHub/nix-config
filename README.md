@@ -1,5 +1,6 @@
 # TODO
 - fix clipboard ( copyClip, Maccy, PasteNow)
+- setup neovim
   
 Manual steps: 
 - set default shell to fish

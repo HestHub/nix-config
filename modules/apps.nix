@@ -122,7 +122,7 @@
       yabai -m space --create
       yabai -m space --create
       yabai -m space --create
-      
+
       yabai -m space 1 --label i
       yabai -m space 2 --label ii
       yabai -m space 3 --label iii
@@ -180,6 +180,7 @@
       "mqttx"
       "openlens"
       "postman"
+      "maccy"
     ];
   };
 }

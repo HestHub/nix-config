@@ -29,10 +29,6 @@
         autohide = true;
         show-recents = false; # disable recent apps
         static-only = true;
-        #wvous-tl-corner = 2;  # top-left - Mission Control
-        #wvous-tr-corner = 13;  # top-right - Lock Screen
-        #wvous-bl-corner = 3;  # bottom-left - Application Windows
-        #wvous-br-corner = 4;  # bottom-right - Desktop
       };
 
       finder = {
@@ -51,7 +47,6 @@
       };
 
       NSGlobalDomain = {
-        # `defaults read NSGlobalDomain "xxx"`
         "com.apple.swipescrolldirection" = false; # enable natural scrolling(default to true)
         "com.apple.sound.beep.feedback" = 0; # disable beep sound when pressing volume up/down key
         AppleInterfaceStyle = "Dark"; # dark mode
@@ -69,6 +64,7 @@
         NSAutomaticSpellingCorrectionEnabled = false; # disable auto spelling correction(自动拼写检查)
         NSNavPanelExpandedStateForSaveMode = true; # expand save panel by default(保存文件时的路径选择/文件名输入页)
         NSNavPanelExpandedStateForSaveMode2 = true;
+        _HIHideMenuBar = true; # hide menu bar
       };
 
       # Customize settings that not supported by nix-darwin directly
@@ -112,7 +108,6 @@
         "com.apple.AdLib" = {
           allowApplePersonalizedAdvertising = false;
         };
-        # Prevent Photos from opening automatically when devices are plugged in
         "com.apple.ImageCapture".disableHotPlug = true;
       };
 
