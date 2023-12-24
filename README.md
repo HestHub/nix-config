@@ -1,5 +1,4 @@
 # TODO
-- configure yabai + skhdrc
 - fix clipboard ( copyClip, Maccy, PasteNow)
   
 Manual steps: 
