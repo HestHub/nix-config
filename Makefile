@@ -14,24 +14,33 @@ bootstrap:
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 ssh_keys:
+#	Generate ssh keys
 	ssh-keygen -t ed25519 -C "$$M_MAIL" -f ~/.ssh/$$M_ID -N $$PASSWORD
 	ssh-keygen -t rsa -C "$$G_MAIL" -f ~/.ssh/$$G_ID -N $$PASSWORD
 	ssh-keygen -t ed25519 -C "$$C_MAIL" -f ~/.ssh/$$C_ID -N $$PASSWORD
+# 	add keys to ssh-agent
 	ssh-add --apple-use-keychain ~/.ssh/$$M_ID
 	ssh-add --apple-use-keychain ~/.ssh/$$C_ID
 	ssh-add --apple-use-keychain ~/.ssh/$$G_ID
-	
+
 post-fix:
 #	 add fish to available shell if not already present
-	if ! grep -q "/etc/profiles/per-user/hest/bin/fish" /etc/shells; then echo "hello"; fi
+	if ! grep -qF "/etc/profiles/per-user/${M_USER}/bin/fish" /etc/shells; \
+		then echo "/etc/profiles/per-user/${M_USER}/bin/fish" | sudo tee -a /etc/shells; fi
 
 #	add nix user bin to path if not already present
-#	/etc/profiles/per-user/hest/bin  -> /etc/paths
+	if ! grep -qF "/etc/profiles/per-user/${M_USER}/bin" /etc/paths; \
+		then echo "/etc/profiles/per-user/${M_USER}/bin" | sudo tee -a /etc/paths; fi
 
 #	copy iterm config to dynamic profiles if not already present
-#   .dotfiles/iterm2.json -> /Users/hest/Library/Application Support/iTerm2/DynamicProfiles
+	if [[ ! -f /Users/${M_USER}/Library/Application\ Support/iTerm2/DynamicProfiles/iterm2.json ]];\
+		then cp ./dotfiles/iterm2.json /Users/${M_USER}/Library/Application\ Support/iTerm2/DynamicProfiles/; fi
 
 #   rtx add plugins and install them
+	rtx plugin add dotnet
+	rtx plugin add azure-cli
+	rtx install
+
 update:
 	nix flake update
 
