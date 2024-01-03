@@ -136,10 +136,6 @@
     '';
   };
 
-  services.tailscale = {
-    enable = true;
-  };
-
   homebrew = {
     enable = true;
 
@@ -150,8 +146,9 @@
     };
 
     masApps = {
-      # Keynote = 409183694;
+      Keynote = 409183694;
       # Xcode = 497799835;
+      Amphetamine = 937984704;
     };
 
     taps = [
@@ -162,6 +159,7 @@
     ];
 
     brews = [
+      "mas"
       "curl" # no not install curl via nixpkgs, it's not working well on macOS!
     ];
 
@@ -181,6 +179,7 @@
       "openlens"
       "postman"
       "maccy"
+      "logitech-g-hub"
     ];
   };
 }

@@ -9,6 +9,7 @@
     fzf
     grc
     fishPlugins.autopair
+    fishPlugins.colored-man-pages
     fishPlugins.done
     fishPlugins.fzf
     fishPlugins.grc
