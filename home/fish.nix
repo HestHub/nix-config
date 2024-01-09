@@ -31,9 +31,13 @@
       k = "kubectl";
       g = "git";
       cat = "bat";
-      ltree = "eza -FThl --git";
       vi = "nvim";
       vim = "nvim";
+      ls = "eza -1 -F --group-directories-first";
+      lsa = "eza -1 -F --group-directories-first -a";
+      ll = "eza -1 -F --group-directories-first -l --git";
+      lla = "eza -1 -F --group-directories-first -l -a --git";
+      lt = "eza -1 -F -T";
     };
 
     functions = {
@@ -42,11 +46,21 @@
         onEvent = "fish_command_not_found";
       };
 
+      update_git = ''
+        set back (pwd)
+        for d in (find . -type d -name .git)
+          cd "$d/.."
+          pwd
+          git pull
+          cd $back
+        end
+      '';
+      
+
       gitignore = "curl -sL https://www.gitignore.io/api/$argv";
     };
 
     plugins = [
-      # TODO add plugin https://github.com/Gazorby/fish-abbreviation-tips
       {
         name = "autopair";
         src = pkgs.fishPlugins.autopair.src;

@@ -1,4 +1,5 @@
 # TODO
+- add fish plugin https://github.com/Gazorby/fish-abbreviation-tips
 - remove hardcoded username
 - split darwin config ( skhd, yabai, homebrew) into seperate files
 - setup neovim
