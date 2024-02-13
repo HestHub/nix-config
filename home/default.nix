@@ -3,7 +3,7 @@
 in {
   imports = [
     ./core.nix
-    ./rtx.nix
+    #./rtx.nix
     ./git.nix
     ./fish.nix
     ./k9s.nix

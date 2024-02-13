@@ -41,6 +41,11 @@ post-fix:
 	rtx plugin add azure-cli
 	rtx install
 
+# 	enable shims support for IDEA IDEs ( they support asdf but not mise nativly)
+	ln -s ~/.local/share/mise ~/.asdf
+#	add complettion for mise in fish
+	mise completion fish > ~/.config/fish/completions/mise.fish
+
 update:
 	nix flake update
 

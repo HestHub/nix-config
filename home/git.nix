@@ -87,6 +87,7 @@
       "build/"
       "out/"
       ".rtx.toml"
+      ".mise.toml"
       ".env"
     ];
   };

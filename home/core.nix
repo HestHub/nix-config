@@ -13,6 +13,7 @@
     k9s
     jc
     dotnetPackages.Nuget
+    unixtools.watch
   ];
 
   programs = {

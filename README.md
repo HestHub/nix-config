@@ -3,6 +3,7 @@
 - remove hardcoded username
 - split darwin config ( skhd, yabai, homebrew) into seperate files
 - setup neovim
+- update rtx to mise ( same project, new name )
   
 Manual steps: 
 - set default shell to fish

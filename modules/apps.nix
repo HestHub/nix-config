@@ -118,10 +118,10 @@
       sudo yabai --load-sa
       yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
-      yabai -m space --create
-      yabai -m space --create
-      yabai -m space --create
-      yabai -m space --create
+      # yabai -m space --create
+      # yabai -m space --create
+      # yabai -m space --create
+      # yabai -m space --create
 
       yabai -m space 1 --label i
       yabai -m space 2 --label ii
@@ -152,7 +152,7 @@
     };
 
     taps = [
-      "homebrew/cask"
+      #"homebrew/cask"
       "homebrew/cask-fonts"
       "homebrew/services"
       "homebrew/cask-versions"
@@ -180,6 +180,7 @@
       "postman"
       "maccy"
       "logitech-g-hub"
+      "mqtt-explorer"
     ];
   };
 }
