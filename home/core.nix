@@ -3,11 +3,14 @@
     jq
     diff-so-fancy
     bat
+    btop
+    #dust
     eza
     gotop
     wget
     lf
     tree
+    tldr
     glow
     kubectl
     k9s

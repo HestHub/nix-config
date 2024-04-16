@@ -12,7 +12,7 @@
     settings = {
       tools = {
         go = "latest";
-        java = ["openjdk-17" "openjdk-21","zulu-21"];
+        java = ["openjdk-17" "openjdk-21" "zulu-21"];
         nodejs = ["lts" "16"];
         dotnet = ["7" "8"];
       };

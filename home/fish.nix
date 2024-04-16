@@ -31,7 +31,7 @@ in
         insulter
 
         /Users/hest/.local/bin/mise activate fish | source
-        
+
         set fish_greeting # Disable greeting
         abbr -a -- .. "cd .."
         abbr -a -- ... "cd ../.."
@@ -50,6 +50,11 @@ in
         ll = "eza -1 -F --group-directories-first -l --git";
         lla = "eza -1 -F --group-directories-first -l -a --git";
         lt = "eza -1 -F -T";
+        gitbt = "git log --graph --simplify-by-decoration --pretty=format:'%d' --all";
+        azlistdev = "az containerapp list --subscription ${builtins.getEnv "AZ_SUB_DEV"} --resource-group ${builtins.getEnv "AZ_RG_DEV"} | jq '.[] | \"\\(.properties.runningStatus) \\(.name)\"'";
+        azlistprod = "az containerapp list --subscription ${builtins.getEnv "AZ_SUB_PROD"} --resource-group ${builtins.getEnv "AZ_RG_PROD"} | jq '.[] | \"\\(.properties.runningStatus) \\(.name)\"'";
+        azdev = "az containerapp logs show --subscription ${builtins.getEnv "AZ_SUB_DEV"} --resource-group ${builtins.getEnv "AZ_RG_DEV"} --follow --format text -n";
+        azprod = "az containerapp logs show --subscription ${builtins.getEnv "AZ_SUB_PROD"} --resource-group ${builtins.getEnv "AZ_RG_PROD"} --follow --format text -n";
       };
 
       functions = {
@@ -64,9 +69,9 @@ in
         '';
 
         gcp = ''
-            git add .
-            git commit -m "$argv"
-            git push origin HEAD
+          git add .
+          git commit -m "$argv"
+          git push origin HEAD
         '';
 
         insulter = insultfunction;

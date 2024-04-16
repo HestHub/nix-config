@@ -160,27 +160,29 @@
 
     brews = [
       "mas"
+      "tmux"
       "curl" # no not install curl via nixpkgs, it's not working well on macOS!
     ];
 
     casks = [
       "aldente"
-      "insomnia"
-      "docker"
-      "visual-studio-code"
-      "zoom"
-      "microsoft-teams"
       "bitwarden"
+      "docker"
+      "insomnia"
       "iterm2"
-      "slack"
       "jetbrains-toolbox"
-      "tailscale"
+      "logitech-g-hub"
+      "maccy"
+      "microsoft-teams"
       "mqttx"
       "openlens"
       "postman"
-      "maccy"
-      "logitech-g-hub"
-      "mqtt-explorer"
+      "raycast"
+      "slack"
+      "tailscale"
+      "visual-studio-code"
+      "warp"
+      "zoom"
     ];
   };
 }
