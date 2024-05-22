@@ -45,8 +45,7 @@
         }
       ];
     };
-
-    # nix codee formmater
+    # nix code formater
     formatter.x86_64-darwin = nixpkgs.legacyPackages.x86_64-darwin.alejandra;
   };
 }

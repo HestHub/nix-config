@@ -36,7 +36,6 @@
 
     eza = {
       enable = true;
-      enableAliases = false;
       git = true;
       icons = true;
     };
@@ -49,7 +48,6 @@
     navi.enable = true;
     nushell.enable = true;
     ripgrep.enable = true;
-    thefuck.enable = true;
     awscli.enable = true;
   };
 }

@@ -1,19 +1,19 @@
 # wont install tools automaticly
-# rtx activate fish | source
-# rtx use --global go@1.21.4
+# mise activate fish | source
+# mise use --global go@1.21.4
 {
   config,
   lib,
   pkgs,
   ...
 }: {
-  programs.rtx = {
+  programs.mise = {
     enable = true;
-    settings = {
+    globalConfig = {
       tools = {
         go = "latest";
-        java = ["openjdk-17" "openjdk-21" "zulu-21"];
-        nodejs = ["lts" "16"];
+        java = ["openjdk-21"];
+        nodejs = ["lts" "18"];
         dotnet = ["7" "8"];
       };
 
