@@ -67,19 +67,6 @@
       ctrl + shift - left : yabai -m window --space prev; yabai -m space --focus prev
       ctrl + shift - right : yabai -m window --space next; yabai -m space --focus next
 
-      # focus window
-      alt - a : yabai -m window --focus west \
-          || yabai -m window --focus "$( \
-              (yabai -m query --spaces --display next) \
-                  | jq -re '.[] | select(.visible == 1)."last-window"')" \
-          || yabai -m display --focus prev
-      alt - s : yabai -m window --focus south
-      alt - w : yabai -m window --focus north
-      alt - d : yabai -m window --focus east \
-          || yabai -m window --focus "$( \
-              (yabai -m query --spaces --display prev) \
-                  | jq -re '.[] | select(.visible == 1)."first-window"')" \
-          || yabai -m display --focus next
     '';
   };
 
