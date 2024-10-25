@@ -1,41 +1,60 @@
 
 
 
-## Background
+## My accidental path to NixOS
 
-It all started a couple of weeks ago, when i decided that it would be fun to add some pictures to a blogpost to zhuzh it up a little, and what better way to get going other than using a stable-diffution AI?
+It started as a simple wish to spice up a blog post with some AI-generated images,
+but ended with a ruined OS and a weekend spent writing config and reading docs.
 
-It just ot happend to be that i have a fairly powerful graphicscard installed in my desktop machine, so why not seize the oppertunity and do some local AI experimentation. 
+While writing my last blogpost, I had the idea to zhuzh it up a bit with some images,
+and just so happend to be, i have quite the powerful GPU sitting in my PC, begging for some AI rendering experimentation.
 
-So on i go, and the first step in the AI journey is to enable the interface for AI models on my AMD card, which means installing ROCM, AMds version of CUDA. 
-
-No problem i though, running PopOS, its as easy as an "apt install" command, right? 
+The first step seemed simple enough: install ROCM, AMD's version of CUDA to get the AI and GPU talking.
+Running PopOS, installation is as easy as running apt install, and that will be all it takes to start rendering?
 
 Not quite, as it turns out.
-My attempt to install ROCM failed, and failed so utterly and so brutally that the SSD containing the bootloader disappeared from the system, never to be found again.
 
-So after spending a stormy,dark, week-long sunday afternoon troubleshooting, pulling hair and SATA cables in equal measure, i finally gave up and tallied up the system as condemned. 
+For anyone else, this might have been it, but my attempt failed, and failed so utterly and so brutally that the SSD containing the bootloader disappeared from the system, gone with a digital wind,never to be seen again.
 
-Now the only way forward was to raze the ruins of my once working OS, pave over the lot and rebuild from scratch.
+So after a dark, stormy, week-long troubleshooting session compressed into a single sunday afternoon, pulling both hair and SATA cables, i finally threw in the towel and tallied up the system as condemned. 
 
-Maybe not the best of outcomes, but this did force me to start an old project that has been puttering in the backlog for quite some time now: Testing Nix as a daily driver, and what better time than now?
+Now that the OS was beyond salvation, the only way forward was to raze the ruins of my once working PC, 
+pave over the lot and rebuild from scratch.
+
+So not every step went exactly according to plan, but i did find a silverlining in this catastrphic failure: NixOS.
+Being forced to start from strach did push me to pick up and old project that had been puttering along in my ever increasing backlog of personal projects, trying out NixOS as a daily driver.
+
+## What is Nix, and why use it?
+
+So what is Nix? it seesm like depending on how you hold it and which parts you are exposed to first, you could describe something completely different.
+
+Is it an operating system? A package manager? A configuration language? A development environment?
+
+The answer is: yes.
+
+Nix is actually an entire ecosystem of tools that work together and can help us build immutable, reproducable systems.
 
 
-## What is, and why Nix
-
-So what is Nix?
-
-is it an OS? a pacakge manager? maybe a config language, or a shell environment?
-How about all of the above? 
-
-the Nix ecosystem consists of many parts, and they all work together to create a reproducible, immutable system.
-
-This is, at least for me, the big selling point, that i can declaratively configure my system, store this config offsite, and reuse it on any machine, and easily bootstrap a new machine just the way i like it. 
+### The nix Ecosystem
+- Nix (the language)
+- Nix (the package manager)
+- Nix (the operating system)
+- Modules
+- Channels
+- Nix store
+- Generations2
 
 
-SOME DETAILS ABOUT NIX
+### compared to traditional distributions
 
-TODO EXPLAIN FLAKES
+
+### the future features
+
+
+#### flakes
+
+#### homeManager
+
 
 
 ## installation
@@ -670,6 +689,293 @@ So lets save this config to github, wipe it all and see what happends.
 
 TODO add pictures of Installation
 
-TODO describe all manual steps needed
 
-TODO add final config file
+And were back! 
+
+the whole installation took about 30 min, from pressing reboot until i started writing here again, and that is after checking that everything is in place, logging into a couple of apps and settings up github access. 
+
+all in all, the manual step i still need to perform are:
+- copy my configuration file from pulic github repo
+- nixos-rebuild switch
+- reboot to get the gnome extension pop-shell show up. 
+- enable pop shell and toggle tiling windows.
+- mount disks + run sudo nixos-generate-config
+- update nix-channel to handle "command not found"
+- login to bitwarden, firefox google account, slack, discord, spotube, supersonic
+- login to steam, enable compatability layer, add extra harddrives.
+- pair up PS5 controller over bluetooth. 
+
+So there are still some small "issues" that i would like to remedy, and with [flakes]() and [homemanager]() i think most can be resolved. 
+
+Im not sure if its possible, or even desirable to handle app logins through config, perhaps a private Github gist with secrets and access tokens could handle it? something i have to look into in the future. 
+
+Adding to that, i might aswell provide my current TODO list for NixOS while im at it, in no particular order:
+
+- handle config
+  - [Flakes]()
+  - [HomeManager]()
+- look into nix linters:
+  - https://github.com/oppiliappan/statix
+  - https://github.com/NixOS/nixfmt
+  - https://github.com/kamadorueda/alejandra
+- security hardening
+  - https://github.com/cynicsketch/nix-mineral
+- package management
+  - NUR https://github.com/nix-community/NUR/
+  - sofware center https://github.com/snowfallorg/nix-software-center
+- building widgets
+  - AGS https://github.com/Aylur/ags
+- extra inspiration
+  - https://github.com/nix-community/awesome-nix
+  - https://github.com/nix-community/nixpkgs-wayland?tab=readme-ov-file#packages
+  - https://discourse.nixos.org/t/tips-tricks-for-nixos-desktop/28488/4
+- Userfriendly alternative
+  - https://snowflakeos.org/
+
+But for today i will leave it at that, and i hope i managed to show a fair view of what a journey with NixOS Desktop can entail, atleast from a newbies point of view.
+
+Thank you for sticking around, and i will leave you with a look at the final config for this session.
+
+
+#### configuration.nix
+
+```
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
+
+{ config, pkgs, ... }:
+
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
+
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  networking.hostName = "nixos"; # Define your hostname.
+
+  # Enable networking
+  networking.networkmanager.enable = true;
+
+  # Set your time zone.
+  time.timeZone = "Europe/Stockholm";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "sv_SE.UTF-8";
+    LC_IDENTIFICATION = "sv_SE.UTF-8";
+    LC_MEASUREMENT = "sv_SE.UTF-8";
+    LC_MONETARY = "sv_SE.UTF-8";
+    LC_NAME = "sv_SE.UTF-8";
+    LC_NUMERIC = "sv_SE.UTF-8";
+    LC_PAPER = "sv_SE.UTF-8";
+    LC_TELEPHONE = "sv_SE.UTF-8";
+    LC_TIME = "sv_SE.UTF-8";
+  };
+
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+
+  # autologin without password
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "hest";
+
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+  # enable tailscale VPN
+  services.tailscale.enable = true;
+
+  # Enable sound with pipewire.
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  # Define a user account.
+  users.users.hest = {
+    isNormalUser = true;
+    description = "hest";
+    shell = pkgs.fish;
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
+    packages = with pkgs; [
+      #  thunderbird
+    ];
+  };
+
+  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
+
+  # enable containerization ( podman ) 
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
+
+  # Install firefox.
+  programs.firefox.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
+  programs.fish.enable = true;
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  environment.systemPackages = with pkgs; [
+    # basics
+    wget
+    vim
+    gnomeExtensions.pop-shell
+
+    # CLI 
+    navi
+    tealdeer
+    jq
+    yq
+    dasel # https://github.com/tomwright/dasel
+    lf
+    bat
+    eza
+    fzf
+    zellij
+    tre-command
+    radeontop
+    xclip
+
+    # pw-manager 
+    bitwarden
+
+    # coms
+    discord
+    slack
+
+    # media
+    supersonic
+    spotube
+
+    # containers
+    podman
+    podman-compose
+    podman-desktop
+
+    # dev 
+    git
+    gh
+    vscodium
+    mise
+
+    # VPN
+    tailscale
+
+    # Nix
+    nixfmt-rfc-style
+  ];
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than +3";
+  };
+
+  nix.settings.auto-optimise-store = true;
+
+  system.stateVersion = "24.05"; # Did you read the comment?
+
+}
+
+```
+
+#### hardware-configuration.nix
+
+```
+# Do not modify this file!  It was generated by ‘nixos-generate-config’
+# and may be overwritten by future invocations.  Please make changes
+# to /etc/nixos/configuration.nix instead.
+{ config, lib, pkgs, modulesPath, ... }:
+
+{
+  imports =
+    [ (modulesPath + "/installer/scan/not-detected.nix")
+    ];
+
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.extraModulePackages = [ ];
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/d15bc54f-14a3-46ad-ac2e-4491cf0ef8e1";
+      fsType = "ext4";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/8DB2-391E";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
+    };
+
+  fileSystems."/mnt/17a50a65-0cf0-43f3-ad12-c04a35e5e00d" =
+    { device = "/dev/disk/by-uuid/17a50a65-0cf0-43f3-ad12-c04a35e5e00d";
+      fsType = "ext4";
+    };
+
+  fileSystems."/mnt/bb0d0a4f-d7af-44ad-8dda-89bd4b8b646b" =
+    { device = "/dev/disk/by-uuid/bb0d0a4f-d7af-44ad-8dda-89bd4b8b646b";
+      fsType = "ext4";
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/ba63ca35-0d86-408c-b15c-623de0039ec8"; }
+    ];
+
+  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+  # (the default) this is the recommended approach. When using systemd-networkd it's
+  # still possible to use this option, but it's recommended to use it in conjunction
+  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+  networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp38s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+}
+
+```
