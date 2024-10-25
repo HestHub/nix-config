@@ -117,7 +117,6 @@
     wget
     vim
     gnomeExtensions.pop-shell
-    kitty
 
     # CLI 
     navi
@@ -131,6 +130,7 @@
     fzf
     zellij
     tre-command
+    radeontop
 
     # pw-manager 
     bitwarden
@@ -140,7 +140,7 @@
     slack
 
     # media
-    supersonic-wayland
+    supersonic
     spotube
 
     # containers
@@ -152,12 +152,9 @@
     git
     vscodium
     mise
-    insomnia
-    gh
 
     # VPN
     tailscale
-    trayscale
 
     # Nix
     nixfmt-rfc-style
@@ -171,7 +168,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than +5";
+    options = "--delete-older-than +3";
   };
 
   nix.settings.auto-optimise-store = true;
