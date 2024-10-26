@@ -36,28 +36,91 @@ Nix is actually an entire ecosystem of tools that work together and can help us 
 
 
 ### The nix Ecosystem
-- Nix (the language)
-- Nix (the package manager)
-- Nix (the operating system)
-- Modules
-- Channels
-- Nix store
-- Generations2
+- Nix (the package manager): the package manager the entire ecosystem is built around. 
+the novelty of this manager comperd to traditional ones such as apt, dnf or pacman is that every package get installed in its own isolated box, preventing one package from breaking another, and avoiding the "dependecy hell" that can arise on other distros.
+- Nix (the language): a purely functinal language designed for package and config management.
+- Nix (the operating system): A linux distribution built around the nix package manager, here the entire system is treated as one reproducable package.
+- Modules: The building blocks of nix configuratrion. Each module is a self-contained unit containing its own options, servies and configurations.
+- Channels: Simillar to linux distribution repositories, these collelctions of packages and modules are different streams of software nix can fetch from, each stream having its own update frequency and stability.
+  - nixos-unstable: bleeding edge, rolling release updates
+  - nixos-YY-MM: stable, regular release stream, updated every 6 month (YY.04 and YY.11)
+- Nix store: located at `/nix/store`, this is where all packages and configuration is found. Each package is stored under a unique hash that also contains all of the packages dependecies. this structure is what enables nix to guarantee both reproducablity and a promise that updates wont break existing packages.
+- Generations: A nix generation is a snapshot of the systems current state. Every time the system configuration is changed, a package is added or removed, a new generation is created. These generations can be used like git commits, we can jump back to a previsous commit if the latest is not up to par, and just like git handles diffs between commits, the unchanged packages in the nix store are shared between generations, meaning large storage savings on the disk.
 
 
-### compared to traditional distributions
+### Nix compared to traditional distributions
 
+Compared to a traditional distribution , a nix configuaration is completly declarative, so everything i stored in documeted, version-controlled files. 
+So instead of having a system state that evolves and changes over time, nix is closer to a "Infrastrucute-as-code" approach,
+the system is the code, and we cah build, backup and deploy it just like code.
+
+A nix system is immutable, so unlike other sytems where installing a new package might silently update a shared dependcy, every package in nix is isolated, and in this containerized enviroment, everything the package needs to function is included, so having different version fo the same software is no longer an issue.
+
+Updating and testing new features with nix is safe and easy, building a new generation is an atomic operation, so either everything works together, or the generation wont build at all. And if something would turn out broken in the newly build generation, swapping back to a working system is as easy as a reboot.
+
+So in short we could say the main benefits of a nix system is:
+
+- its declarative
+- config can be backed up
+- config can be deployed to multiple machines
+- possible to rollback changes if anything breaks
+- package updates cant break other packages dependcies
+- different version of the same package can coexist
+- system changes are safe and easy to manage
+
+
+Is there a learning curve? Absolutely. Nix thinks differently about system configuration, and it takes time to adjust to.
+But from everything ive heard from others using nix its worth it, once you get a hang of it, its hard to imagine going back to the old ways.
 
 ### the future features
 
+My nix journey will start from scratch, and i will, atleast for today, keep myself to the nix core, but there are two adanved nix features that i would like to take a look at in the future:
 
 #### flakes
 
+Flakes are the "new" feature of nixos, which has been in an experimental state since 2021. 
+Flakes brings an additional layer of reporducabiltiiy and structure to a nix config, allowing nix to:
+
+- Lock all your dependencies to specific versions
+- Create reproducible development environments
+- Share configurations between machines easily
+- Define modular system components that can be mixed and matched
+
+A simple flake might look something like this:
+
+
+```
+{
+  description = "My system configuration";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager";
+  };
+
+  outputs = { self, nixpkgs, home-manager }: {
+    #system configuration here
+  };
+}
+
+```
+
+There is much discussion around flakes being the next evolution within nix,
+but its a bit more complex to wrap your head around, and will add to an already quite steep learing curve,
+so atleast for today, i will leave them be.
+
+
 #### homeManager
 
+Home Manager is nix approach to manage personal user environment. 
+Instead of manually configuration a pile of different dotfiles (.zshrc, .vimrc) and installing user specific package, we can piggyback on nix and get all the benefits from our system config and apply them to user config aswell.
+
+So everything normaly spread out into dotfiles and optiosn menues would be handled together with our system, backed up and secured, ready to be deployed on any machine, anytime. 
 
 
 ## installation
+
+### live-booting
 
 Step 1 - Livebooting nixOS and installing it on my Desktop.
 
@@ -67,6 +130,7 @@ Step 1 - Livebooting nixOS and installing it on my Desktop.
    otherwise a normal installation wizard, the only thing sticking out is the option to "Allow unfree software". 
    The default behaivour of nix is to only allow free, open source software, and you have to opt in to allow propriatary software to be installed on your system. 
 
+### first boot
 
    After a quick restart, booting into the installed system, its time to install some software. 
 
@@ -76,15 +140,6 @@ Step 1 - Livebooting nixOS and installing it on my Desktop.
 
    These are the files and way of working ill go through today, but there are more advanced features out there, something i will not look to closly today, but still worth mentioning. 
 
-   Flake is an experimental feature....
-
-   HomeManager is a system for managing user specific config....
-
-
-   Maybe in the future, if i feel limited by what the base nix experience offer, ill look closer at incorperating these more advanced feature, but today ill stick to the basics.
-
-
-.
    firstly is the hardware-configuration.nix, this file tells nix what hardware its working with, CPU architecture, hard-drives, network card, and also sets up the firmware we need, sets CPU architecture and points out hard-drive partitions. 
 
    So in short, hardware config lives here, and is something managed by nix itself, we dont edit this file by hand.
@@ -289,8 +344,6 @@ Step 1 - Livebooting nixOS and installing it on my Desktop.
 
 here we can se a couple of intreseting things: 
 
-Nix the language - its the language we use to describe our derivations. its a fully functional language, so everything is done using expressions, so great if you feel functional yourself, otherwise its something to get used to.
-
 we have a set of different domains that we configure in this file, 
 first a couple that get configured during the installation, and that ill leave as is:
 
@@ -317,6 +370,11 @@ simple as that.
 the next two, programs and systemsPackages are similar to each other, and a quick and dirty way to look at is that systemPackages are the basic install flow, and will simply put a binary in PATH and thats it.
 
 But if we install using programs.ABC we can include some config options directly during the installation, otherwise config has to be done manually ( or using the HomeManager feature).
+
+
+## configuration
+
+### first updates
 
 So lets give it a go, first thing i wanted installed was:
  
@@ -674,6 +732,9 @@ every time i build a new generation, a cleanup of dangling packages will be perf
   nix.settings.auto-optimise-store = true;
 
 ```
+
+
+## outro
 
 And with that my v1 config for nixos is complete, 
 and this is the configuration ive been using as a daily driver for about two weeks now.
