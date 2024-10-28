@@ -58,19 +58,6 @@ A nix system is immutable, so unlike other sytems where installing a new package
 
 Updating and testing new features with nix is safe and easy, building a new generation is an atomic operation, so either everything works together, or the generation wont build at all. And if something would turn out broken in the newly build generation, swapping back to a working system is as easy as a reboot.
 
-So in short we could say the main benefits of a nix system is:
-
-- its declarative
-- config can be backed up
-- config can be deployed to multiple machines
-- possible to rollback changes if anything breaks
-- package updates cant break other packages dependcies
-- different version of the same package can coexist
-- system changes are safe and easy to manage
-
-
-Is there a learning curve? Absolutely. Nix thinks differently about system configuration, and it takes time to adjust to.
-But from everything ive heard from others using nix its worth it, once you get a hang of it, its hard to imagine going back to the old ways.
 
 ### the future features
 
@@ -117,6 +104,19 @@ Instead of manually configuration a pile of different dotfiles (.zshrc, .vimrc) 
 
 So everything normaly spread out into dotfiles and optiosn menues would be handled together with our system, backed up and secured, ready to be deployed on any machine, anytime. 
 
+So in short we could say the main benefits of a nix system is:
+
+- its declarative
+- config can be backed up
+- config can be deployed to multiple machines
+- possible to rollback changes if anything breaks
+- package updates cant break other packages dependcies
+- different version of the same package can coexist
+- system changes are safe and easy to manage
+
+
+Is there a learning curve? Absolutely. Nix thinks differently about system configuration, and it takes time to adjust to.
+But from everything ive heard from others using nix its worth it, once you get a hang of it, its hard to imagine going back to the old ways.
 
 ## installation
 
@@ -124,25 +124,31 @@ So everything normaly spread out into dotfiles and optiosn menues would be handl
 
 Step 1 - Livebooting nixOS and installing it on my Desktop.
 
-   - picked up a a NixOS Image from here [NixOS](https://nixos.org/download/#nixos-iso)
-   - burned it to a USB stick and booted from it. 
+- picked up a a NixOS Image from here [NixOS](https://nixos.org/download/#nixos-iso)
+- burned it to a USB stick and booted from it. 
 
-   otherwise a normal installation wizard, the only thing sticking out is the option to "Allow unfree software". 
-   The default behaivour of nix is to only allow free, open source software, and you have to opt in to allow propriatary software to be installed on your system. 
+From the live boot enivronment we can poke around and get a feel for the system, but here its hard to tell it apart from other distros,
+and like many other we can use a graphical installation wizard to permantenlty install the OS.
+
+otherwise a normal installation wizard, i setup my locale, keyboard, user, desktop manager and hardrive partitioning.
+The only thing sticking out is the option to "Allow unfree software". 
+The default behaivour of nix is to only allow free, open source software, and you have to opt in to allow propriatary software to be installed on your system. 
+
+TODO picture of installation
 
 ### first boot
 
-   After a quick restart, booting into the installed system, its time to install some software. 
+After a quick restart, booting into the system, its time to install some software. 
 
-   during the installation, two very important nix files have been generated for us. 
+during the installation, two very important nix files have been generated: the config files.
 
-   these are the config file, one looking at hardware, and the other at software, and they make up the basic strucute of nix.
+In nixos, we dont have access to a package manger like apt, or a software center to install new software. 
 
-   These are the files and way of working ill go through today, but there are more advanced features out there, something i will not look to closly today, but still worth mentioning. 
+Instead we have to use these configuration files if we want to add something new. 
 
-   firstly is the hardware-configuration.nix, this file tells nix what hardware its working with, CPU architecture, hard-drives, network card, and also sets up the firmware we need, sets CPU architecture and points out hard-drive partitions. 
+firstly is the hardware-configuration.nix, this file tells nix what hardware its working with, CPU architecture, hard-drives, network card, and also sets up the firmware we need, sets CPU architecture and points out hard-drive partitions. 
 
-   So in short, hardware config lives here, and is something managed by nix itself, we dont edit this file by hand.
+So in short, hardware config lives here, and is something managed by nix itself, we dont edit this file by hand.
 
    ```
 # Do not modify this file!  It was generated by ‘nixos-generate-config’
@@ -191,14 +197,13 @@ Step 1 - Livebooting nixOS and installing it on my Desktop.
    ```
 
 
-   next up is the configuration.nix file, and here is where the magic happens. 
+next up is the configuration.nix file, and here is where the magic happens. 
 
-   this file works like a blueprint of the OS we want to setup, any changes we want to do to our system, its done using this file. 
+this file works like a blueprint of the OS we want to setup, any changes we want to do to our system, its done using this file. 
 
-   And here is the biggest difference between Nix and other distributions, since the OS is immutable, we dont install anything in the normal way, but we instead rebuild the entire system, with the added software bundled into it. 
+Here is the biggest difference between Nix and other distributions, since the OS is immutable, we dont install anything in the normal way, but we instead rebuild the entire system, with the added software bundled into it. 
 
-   So if we take a look at my config file at first boot: 
-
+So if we take a look at my config file at first boot: 
 
 
    ```
@@ -350,26 +355,67 @@ first a couple that get configured during the installation, and that ill leave a
 - boot
 - networking
 - time
-- i18n 
+- i18n (Internationalization) 
 - users
 
 
-and then we have the three main domains that will add some useful software to our system: 
+and then we have the three main domains that will add software to our system: 
 
-services, programs and systemPackages. 
+#### systempackages
 
-Im sure there are more nuances to it, but im seperating them into rough categories
+```
+environment.systemPackages = with pkgs; [
+  vim
+  git
+  firefox
+];
 
-services handles background processes, and deamon, for example displaymanager, and pipewire (sound), Later on i also use a service to enable a VPN client called tailscale. 
+```
 
-services.tailscale.enable = true;
+this is the basic form of installtion, simply making a binary available systemwide, without any extra options of config.
+Simillar to running apt install.
 
-simple as that. 
+#### programs
+
+```
+programs = {
+  vim = {
+    enable = true;
+    defaultEditor = true;
+    extraConfig = '''
+      set number
+      set relativenumber
+    ''';
+  };
+};
+```
+programs lets us add some extra configuration to an app or tool that we install.
+This is a great options if we want to add some config right from the get go, use some nix specific integration, or setup system default when a new app is added.
 
 
-the next two, programs and systemsPackages are similar to each other, and a quick and dirty way to look at is that systemPackages are the basic install flow, and will simply put a binary in PATH and thats it.
+#### services
 
-But if we install using programs.ABC we can include some config options directly during the installation, otherwise config has to be done manually ( or using the HomeManager feature).
+```
+services = {
+  nginx = {
+    enable = true;
+    virtualHosts."example.com" = {
+      root = "/var/www/example";
+    };
+  };
+};
+```
+
+Services handles everything to do with background task, here we can use an additional setup to setup background processes after the install and configuration step. Servies allows us to setup VPNs, databases, web servers and anyting handled as background deamons.
+
+
+So im basing my decision on which to use on three quesitons:
+
+  1. Just need the sofware available? - systemPackages
+  2. Need som extra configuraiton? - programs
+  3. Will it run in the background? - services
+
+But of course availablitity will also factor in, there are alot more packages compared to programs in the nix package manager, so sometimes the hand is forced.
 
 
 ## configuration
