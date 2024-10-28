@@ -417,12 +417,13 @@ So im basing my decision on which to use on three quesitons:
 
 But of course availablitity will also factor in, there are alot more packages compared to programs in the nix package manager, so sometimes the hand is forced.
 
+Thats if for installation, lets move on and add some apps.
 
 ## configuration
 
 ### first updates
 
-So lets give it a go, first thing i wanted installed was:
+So lets give it a go, first on the list:
  
 - vim (instead of the bundled nano)
 - bitwarden as a password manager
@@ -435,7 +436,7 @@ So lets give it a go, first thing i wanted installed was:
 - slack
 
 
-and all of this is as simple as adding a couple of lines to our systemPackage attribute like this:
+adding all of this is as simple as writing a couple of lines to my systemPackage attribute like this:
 
 ```
 environment.systemPackages = with pkgs; [
@@ -450,8 +451,7 @@ environment.systemPackages = with pkgs; [
 
 ```
 
-and for steam, which has some extra config options we can provide, we do this:
-
+For steam, which has some extra config options we can provide, I'll add this:
 
 ```
   programs.steam = {
@@ -463,7 +463,7 @@ and for steam, which has some extra config options we can provide, we do this:
 
 ```
 
-and as a final touch, we add fish as the default shell for my user, updating the users item for my user:
+and as a final touch, I want to add fish as the default shell for my user, updating the users item for my user:
 
 ```
  users.users.hest = {
@@ -478,16 +478,18 @@ and as a final touch, we add fish as the default shell for my user, updating the
 
 ```
 
-With these changes in place, we are now ready to rebuild our system, creating a new "generation" of the setup. 
+Adding this to the configuraiton file itself wont do much, but the blueprint for new generataion is ready to be built.
 
 this is done using the nix cli command `nixos-rebuild`.
 
-`nixos-rebuild switch` will build the config and activate the new generation right away, so any new binaries install are available, and will also add a new record to our boot menu, making the new generation default. 
+`nixos-rebuild switch` will build the config and activate the new generation right away, so any new binaries install are available, and will also add a new record to the boot-loader menu, making the new generation default. 
 
 TODO PICTURE OF BOOTLOADER
 
-if we instead want to tag our build with something specific we can add the flag `-p NAME` or `--profile-name NAME`, giving a more discriptive name other than the date it was built.
+Its also possible to tag the generation, just add the flag `-p NAME` or `--profile-name NAME`, giving a more discriptive name other than the date it was built.
 
+
+So first generation has been created, and all the new packages are available right away, just like that.
 
 ### auto login
 Great, now its much more manageble to edit files with vim, so lets add some more config, next up is a small tweak to autologin on boot: 
@@ -501,7 +503,10 @@ first attempt didn't quite pan out, went to [nix options search]() and found thi
 
 ```
 
-added the lines to config and did a `nixos-rebuild switch`, no problem detected, but then i rebooted to test the feature, but something wasn't quite right. the OS booted alright, and even logged in automaticly, but a second later i was kicked out and had to login manually either way. 
+added the lines to config and did a `nixos-rebuild switch`, no problem detected, new generation created.
+But when i rebooted to test it, something wasn't quite right. the OS booted alright, and even logged in automaticly, but a second later i was kicked out it went back and forth like that. 
+
+No worries, lets just reboot into the previous generation, and everything is as good as rain again.
 
 After som scanning around the forums i found a workaround: 
 
@@ -511,14 +516,16 @@ After som scanning around the forums i found a workaround:
   systemd.services."autovt@tty1".enable = false;
 ```
 
-not sure why it happens, but if it works it works right? [forum discussion](https://discourse.nixos.org/t/gnome-display-manager-fails-to-login-until-wi-fi-connection-is-established/50513/14)
+not about the root cause, but if it works it works right? [forum discussion](https://discourse.nixos.org/t/gnome-display-manager-fails-to-login-until-wi-fi-connection-is-established/50513/14)
 
 
 ### containerization and VPN
 
 next up - virtualization and VPN
 
-adding this snippet of config, one service to enable tailscale VPN, and virtualization has its own "toplevel" domain to configure.
+Im using [Tailscale](https://tailscale.com/) for a private network between my machine, and setting up this in nix is a oneliner service addition:
+
+Virtualization with podman is handled in its own "domain" called "Virtualisation":
 
 ```
   # enable tailscale VPN
@@ -565,14 +572,15 @@ One `nixos-rebuild switch` later, and we have tailscale VPN and podman container
 
 ### nix shell
 
-But what if you just need a cli tools ones in a blue moon, or just want to get a feel for some alternatives before you permanently install it?
+But what if i just need a cli tools once in a blue moon, or just want to get a feel for some alternatives before you permanently install it?
 
-then we can turn our eyes to the nix-shell! 
+Thats where the nix-shell comes into play.
 
-nix shell lets us create a temporary PATH enviroment, install all the dependencies we need for a package and have it availible only as long as the current session is running. 
+nix shell lets me create a temporary PATH enviroment, install all the dependencies needed by a package and have it availible only as long as the current session is running. Rebooting the system will clean up all the temporary files the package has used.
 
-so say i need to get some data from a json, but cant be bothered installing jq the normal route, editing config, rebuilding, creating a new generation just for a one off command?
-lets just nix-shell it: 
+So say i need to get some data from a json, but cant be bothered installing jq the normal route: editing config, rebuilding, creating a new generation, just for a one off command?
+
+Lets handle it with nix-shell: 
 
 ```
 
@@ -596,14 +604,14 @@ these 55 paths will be fetched (74.04 MiB download, 349.22 MiB unpacked):
 
 ```
 
-a nice little feature to have, being able to setup a quick test environment, test out some fun app or CLI i found online, and when im done, not having to worry about just files and unused packages clogging down the system. 
+A nice feature to have, being able to setup a quick test environment, test out some fun app or CLI i found online, and when im done, not having to worry about just files and unused packages clogging down the system. 
 
 
 ### nix-command and flakes
 
-Speaking of nice, features, lets do a quick detour and just toke at nix flakes.
+Speaking of features, lets do a quick detour and take at nix flakes.
 
-I know i said i wont be using flakes today, but this will be quick, ill just make the system ready for them, and test out a flake i found.
+I know i said i wont be using flakes today, but this will be quick, just makeing the system ready for it, and test out a flake i found.
 
 So in order to enable some experimental features, we add this line to our config:
 
@@ -613,9 +621,7 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 rebuild, and we have both flakes and the new nix command at our fingertips. 
 
-So now we are ready to build and use flakes.
-
-i did do some experimentation with this flake: [nixified-AI](github:nixified-ai/flake#invokeai-amd) a flake of [InvokeAI](https://www.invoke.com/), a platform to run text-to-image AI locally. 
+To test it out,I did do some experimentation with this flake: [nixified-AI](github:nixified-ai/flake#invokeai-amd) a flake of [InvokeAI](https://www.invoke.com/), a platform to run text-to-image AI locally. 
 
 at first i tried to run it directly from github
 
@@ -623,9 +629,9 @@ at first i tried to run it directly from github
 nix run github:nixified-ai/flake#textgen-amd
 ```
 
-but something didn't sit quite right, the installation stalled and never finish, or more acruratly i gave up when it was still running after i had been away for 20ish minutes. 
+But something didn't click, the installation stalled and never finish, or truth be told, i gave up when it was still running after i had been away for 20 minutes. 
 
-so next step was to download the repo and run it locally. 
+The next attempt was to download the repo and run it locally. 
 
 ```
 git clone https://github.com/nixified-ai/flake
@@ -634,39 +640,38 @@ nix run .#invokeai-amd
 
 ```
 
-2-3 min of installation, and just like that, i have a local text-to-image AI running on my GPU, not bad, will have to play around with that later.
+2-3 min of installation later,and i have a local text-to-image AI running on my GPU, working like a charm.
 
 ### Gaming and mounting extra hard-drives
 
-6. added mounted extra disks, the solution was to mount as i wanted them, the ran "sudo nixos-generate-config", which updates the hardware config, adding my other SSDs permanently to the setup.
 
-So right about now im feeling quite good with the programs and tools installed, everything installed "just works" right out of the bat. 
+Right about now im feeling good with the programs and tools installed, everything installed "just works" right out of the bat. 
 
-Next up was testing some games, steam installed, proton enabled, [Against the Storm](https://store.steampowered.com/app/1336490/Against_the_Storm/) downloaded and off we go. 
+Next up was setting up the main puropose if this machine: Gaming.
+Steam installed, proton enabled, [Against the Storm](https://store.steampowered.com/app/1336490/Against_the_Storm/) downloaded and off we go. 
 
 Works perfectly, great FPS, no screen tearing, artifacts or other graphical issues.
-No weirdness with keyboard or mouse controls, and i think the GPU barely started up the fans running it, 10/10. 
+No strange behaiviour with keyboard or mouse, and i think the GPU barely started up the fans running it, 10/10. 
 
-But since i have multiple SSDs in my system and the OS installed my "tiny" 500GB M.2 drive, i would prefer to put all my games the 1TB Nvme drive, just incase i once again manage to turn the OS into sludge, and to be honest it does feel inevitable, given enough time and tinkering. 
-
-But right now i can only see my OS disk, nothing else is mounted when i start the system, so how to make sure all the disks are mounted and accessible at boot? 
+But since i have multiple SSDs in my system and the OS installed my "tiny" 500GB M.2 drive, i would prefer to put all my games the 1TB NVME drive, just incase i once again manage to ruin the OS, and to be honest it does feel inevitable, given enough time and tinkering. 
 
 
-this is where to hardware-configuration.nix comes into play. 
+Right now i can only see the main disk, so seems my extra Sata drives are not mounted, lets see how that can be remidied.
+
+
+This is where to hardware-configuration.nix shines.
 
 The solution i found did require a couple of manual steps, but im sure it can be handled automaticly, either with scripts or with some deeper nix knowledge, but what i did was:
 
-  1. mount the drives (make sure they are mounted under /mnt and not /tmp/run/ which "disks" will do by default; It wont work if they are in temp folder)
+  1. mount the drives (make sure they are mounted under /mnt and not /tmp/run/ which gnomes "disks" app will do by default; It wont work if they are in temp folder)
   2. update the hardware config by running `sudo nixos-generate-config` 
   3. profit, now we have the disk mounted at boot, managed by nix.
 
-No, its not to much trouble, and yes, i would survive manually performing this herculean feat of strength every time i set up a system from scratch.
-
-But wouldn't it be nice if this was done for you? For now i put it aside and put my future hopes toward [HomeManager] and [Flakes].
+No, its not to much trouble, and yes, i would survive manually performing this herculean feat of strength every time i set up a system from scratch, but wouldn't it be nice if this was done for you? For now i put it aside and put my future hopes toward [HomeManager] and [Flakes] to solve this.
 
 ### found issue with command not found 
 
-ran into to an annoying issue when commanding away at the terminal, an unplesant database error popped up if i fat-fingered a command.
+Ran into to an issue when typing away at the terminal, an unplesant database error popped up every time I fat-fingered a command.
 
 ```
 hest@nixos ~> claer
@@ -675,50 +680,52 @@ cannot open database `/nix/var/nix/profiles/per-user/root/channels/nixos/program
 hest@nixos ~ [127]> 
 ```
 
-seems like this had something to do with the channel nix was listening to by default, 
-but just adding the proper nixos-unstable and a quick update, and no more DB issues. 
+Seems this had something to do with the channel nix was listening to by default, and the programs.sqlite database is only handling channels prefixed by `nixos-` and not `nixpkgs-`,
+Just adding the proper nixos-unstable channel and a quick update, and no more DB issues.
 
 
 ```
 hest@nixos ~> nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 hest@nixos ~> nix-channel --update
+hest@nixos ~/D/nix-config (nixos)> nix-channel --list
+nixos https://nixos.org/channels/nixos-unstable
 ```
 
 ```
 hest@nixos ~> claer
 claer: command not found
 hest@nixos ~ [127]> 
+
 ```
+
+As a added "benefit", this also updated me from using the stable "LTS" release of 24.04 to nixos-unstable, the rolling release.
 
 ### clean up the nix store
 
 As a final step in this config i wanted to tidy up a bit around the nix store and bootloader. 
 
-with all the different derivations and generations on the system after a couple of weeks of rebuilding, the size of the nix store can grow rather large
+with all the different derivations and generations after a couple of weeks of tinkering and rebuilding, the size of the nix store can grow rather large.
 
 ```
 hest@nixos ~> du /nix/store/ -sh
 21G	/nix/store/
 ```
 
-21 GB might not be to bad, but this will grow quickly, every new generation putting seperate versions of the packages nix installs in the store. 
-
-Every nix generation will also add a new record to our bootloader, making that swell up too.
+21 GB might not be to bad, but this will grow quickly, every new package adding to the total, and every generation will add a new record to our bootloader, making that swell up aswell.
 
 TODO picture of bootloader
 
-So wrapping up this first chapter of my nix config will be to see if i can handle this in a graceful manner. 
 
-Lets see how it can be done manually: 
+Step one: Lets see how it can be done manually.
 
-starting out by finding all the stored generations on the system:
+Starting out by finding all the stored generations on the system:
 
 ```
 nix-env --list-generations
 ```
 
-will do the trick, but since i have installed everything system-wide (using the sytemPackages domain),
-i also need to point out that im using the system profile in this case:
+Will do the trick, but since i have installed everything system-wide (using the sytemPackages domain),
+I also need to point out that im using the system profile in this case:
 
 ```
 sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
@@ -734,18 +741,17 @@ sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
 
 ```
 
-For this manual step, we can try to clear up everything not used: 
+For this manual step, we can try to clear up all the older generations
 
 ```
 sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system
-
-sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system
+sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
 
    8   2024-10-22 21:23:08   (current)
 
 ```
-great, no trouble here, so lets look at the store now that we have some dangling packagees from the old generations. 
-The nix-store cli lets us do a manual garbage collet:
+Great, no trouble here, so lets look at the store now that we have some dangling packagees from the old generations. 
+The nix-store cli lets us do manual garbage-collection:
 
 ```
 nix-store --gc
@@ -760,9 +766,9 @@ But according to the documentation, this is a command you should not have to han
 So lets automate this using our configuration instead.
 
 The [Wiki](https://nixos.wiki/wiki/Storage_optimization) 
-shows that its possbile to handle cleanup for both the generations and the store automaticly.
+shows that its possbile to handle cleanup for both the generations and the store automaticly in a couple of different ways.
 
-The most straightforward options seems to be a scheduled cleanup, ill go for once a week,
+The most straightforward options seems to be a scheduled cleanup, and i think I will go for once a week,
 and only keep the last 3 generations, so if anything goes wrong in the future, i have something to revert back to.
 
 For the store cleanup i opted for an even easier option, optimise after every build, so from now on,
@@ -782,11 +788,11 @@ every time i build a new generation, a cleanup of dangling packages will be perf
 
 ## outro
 
-And with that my v1 config for nixos is complete, 
-and this is the configuration ive been using as a daily driver for about two weeks now.
+And with that the MVP config for my NixOS build is complete, 
+and this is the configuration ive been using as a daily driver for about two-three weeks now.
 
-Almost all of the config work was done upfront, and during the last 12 or so days
-ive only added some minor tweaks: replacing a package here, adding something extra there.
+Almost all of the config work was done upfront, and during the last two weeks
+ive only added some minor tweaks: replacing a package here, adding some extra config there.
 Overall the system has been rock solid, and so far im really happy with how it turned out. 
 
 Now for the finishing touch, the pièce de résistance of this build:
@@ -839,7 +845,7 @@ Adding to that, i might aswell provide my current TODO list for NixOS while im a
 - Userfriendly alternative
   - https://snowflakeos.org/
 
-But for today i will leave it at that, and i hope i managed to show a fair view of what a journey with NixOS Desktop can entail, atleast from a newbies point of view.
+But for today i will leave it at that, and i hope i managed to show a fair view of what a journey with NixOS Desktop can entail, atleast from a beginners point of view.
 
 Thank you for sticking around, and i will leave you with a look at the final config for this session.
 
