@@ -24,7 +24,7 @@ TODO - picture of "Everything not saved will be lost --Nintendo quit screen."
 
 ## What is Nix, and why is it used?
 
-So, what is Nix? Depending on how you hold it and which parts of Nix you are exposed to first, you could describe something completely different.
+So, what is Nix? Depending on how you hold it and which parts of Nix you start your journey with, you could describe it in entirely different ways.
 
 Is it an operating system? A package manager? A configuration language? A development environment?
 
@@ -38,31 +38,39 @@ Nix is an entire ecosystem of tools that work together and can help us build imm
 #### Nix (the package manager)
 The entire Nix ecosystem is built on top of and managed by this package manager.
 Unlike traditional apt, dnf, or Pacman, this manager is unique because every package Nix installs does so in an isolated box. This isolation prevents one package from breaking another and avoids the "dependency hell" that can arise on other distros.
+
 #### Nix (the language)
 A purely functional language designed for package and config management.
+
 #### Nix (the operating system)
-NixOS is a Linux distribution based on the Nix package manager. The system is not cobbled together over time by different parts; instead, it is treated as one reproducible package.
+NixOS is a Linux distribution based on the Nix package manager. It does not consist of different parts cobbled together over time; instead, Nix treats the OS as one reproducible package.
+
 #### Modules
 Modules are the building blocks of all Nix configurations. Each module is self-contained with options, services, and configurations.
+
 #### Channels 
 Similar to Linux distribution repositories, these collections of packages and modules are different streams of software that Linux can fetch from, each stream having a separate update frequency and stability level.
   - NixOS-unstable: bleeding edge, rolling release updates
   - NixOS-YY-MM: stable, regular release stream, updated every 6 months (YY.04 and YY.11)
+
 #### Nix store
-The Nix store is in the system folder `/nix/store,` where all installed packages and dependencies are found. Nix stores each package under a unique hash containing its dependencies and the package itself. This structure enables Nix to guarantee reproducibility and the promise that updates won't break existing packages.
+The Nix store, located at `/nix/store`, contains all the installed packages and their dependencies. 
+Nix stores each package under a unique hash containing its dependencies and the package itself. This structure enables Nix to guarantee reproducibility and the promise that updates won't break existing packages.
+
 #### Generations
- A nix generation is a snapshot of the system's current state. A new generation is created every time the system configuration changes or a package is added or removed. These generations can be used as git commits; we can jump back to a previous commit (generation) if the latest is not up to par. Just like git handles diffs between commits, the unchanged packages in the nix store are shared between generations, meaning large storage savings on the disk.
+ A nix generation is a snapshot of the system's current state. A new generation is created every time the system configuration changes or a package is added or removed. 
+These generations can act similarly to git commits; we can revert to a previous commit (generation) if the latest is not up to par. Just like git handles diffs between commits, the unchanged packages in the nix store are shared between generations, meaning significant storage savings on the disk.
 
 
 ### Nix compared to traditional distributions
-
-Unlike a traditional distribution, where the system and config are changed ad hoc and over time, a Nix configuration is declarative, and the code responsible is stored in documented, version-controlled files. 
+Unlike a traditional distribution, where the system and config are changed ad hoc over time, a Nix configuration is declarative and stored in documented, version-controlled files. 
 So, instead of having a system state that evolves and changes over time, nix is closer to an "Infrastructure-as-code" approach,
 the system is the code, and we can build, backup, and deploy it just like code.
 
 A Nix system is immutable, so unlike other systems where installing a new package might silently update a shared dependency, every package in Nix is isolated. In this containerized environment, everything the package needs to function is included, so having different versions of the same software is no longer an issue.
 
-Updating and testing new features with Nix is safe and easy. Building a new generation is an atomic operation, so everything included is compiled together, or the generation won't build at all. And if something breaks in the newly built generation, swapping back to a working system is as easy as a reboot.
+Updating and testing new features with Nix is safe and easy. Building a new generation is an atomic operation, so everything included is compiled, or Nix won't create the generation.
+And if something breaks in the newly built generation, swapping back to a working system is as easy as a reboot.
 
 
 ### Features of the future
@@ -71,8 +79,8 @@ My Nix journey will start from scratch, and I will, at least for today, confine 
 
 #### flakes
 
-[Flakes](https://nix.dev/concepts/flakes) are the "new" feature of nixos, which has been in an experimental state since 2021. 
-Flakes brings an additional layer of reproducabiltiiy and structure to a nix config, allowing nix to:
+[Flakes](https://nix.dev/concepts/flakes) are the "new" feature of nixos, which has been experimental since 2021. 
+Flakes brings an additional layer of reproducibility and structure to a nix config, allowing nix to:
 
 - Lock all your dependencies to specific versions
 - Create reproducible development environments
@@ -98,31 +106,31 @@ A simple flake might look something like this:
 
 ```
 
-There is much discussion around flakes being the next evolution within nix,
-but it's a bit more complex to wrap your head around, and will add to an already quite steep learning curve,
-so atleast for today, i will leave them be.
+There is much discussion around flakes being the next evolution within Nix,
+but it's a bit more complex to wrap your head around and will add to an already quite steep learning curve,
+so at least for today, I will leave them be.
 
 
 #### Home Manager
 
-[Home Manager](https://nix-community.github.io/home-manager/) is nix approach to manage personal user environment. 
-Instead of manually configuration a pile of different dotfiles (.zshrc, .vimrc) and installing user specific package, we can piggyback on nix and get all the benefits from our system config and apply them to user config aswell.
+[Home Manager](https://nix-community.github.io/home-manager/) is a nix approach to managing a personal user environment. 
+Instead of manually configuring a cluster of different dotfiles (.zshrc, .vimrc) and installing user-specific packages, we can piggyback on nix, get all the benefits from our system config, and apply them to user config.
 
-So everything normaly spread out into dotfiles and optiosn menues would be handled together with our system, backed up and secured, ready to be deployed on any machine, anytime. 
+So everything typically spread out into dotfiles and options menus would be handled with Nix, backed up and secured, ready to be deployed on any machine, anytime. 
 
 So, in short, we could say the main benefits of a nix system are:
 
-- its declarative
-- config can be backed up
-- config can be deployed to multiple machines
-- possible to rollback changes if anything breaks
-- package updates can't break other packages dependencies
-- different version of the same package can coexist
+- it's declarative
+- You can backup the config
+- You can deploy the same config to multiple machines
+- It's possible to rollback changes if anything breaks
+- package updates can't break other packages' dependencies
+- different versions of the same package can coexist
 - system changes are safe and easy to manage
 
 
-Is there a learning curve? Absolutely. Nix thinks differently about system configuration, and it takes time to adjust to.
-But from everything ive heard from others using nix its worth it, once you get a hang of it, its hard to imagine going back to the old ways.
+Is there a learning curve? Absolutely. Nix thinks differently about system configuration, and it takes time to adjust to it.
+But from everything I've heard from others using Nix, it's worth it. Once you get a hang of it, it's hard to imagine going back to the old ways.
 
 
 
@@ -130,36 +138,36 @@ But from everything ive heard from others using nix its worth it, once you get a
 
 ### live-booting
 
-Livebooting nixOS and installing it on my Desktop.
+Livebooting nixOS and installing it on my desktop.
 
 - picked up a [NixOS ISO](https://nixos.org/download/#nixos-iso)
 - burned it to a USB stick
 - Booted from USB
 
 From the live boot environment, we can poke around and get a feel for the system, but here, it's hard to tell it apart from other distros,
-and like many others, we can use a graphical installation wizard to permanently install the OS.
+Like many others, we can permanently install the OS with a graphical installation wizard.
 
-Otherwise, a normal installation wizard, I set up my locale, keyboard, user, desktop manager, and hard drive partitioning.
+Otherwise, as a bog standard installation wizard, I set up my locale, keyboard, user, desktop manager, and hard drive partitioning.
 The only thing sticking out is the option to "Allow unfree software." 
-The default behavior of Nix is to only allow free, open-source software, and you have to opt in to allow proprietary software installation on your system.
+Nix defaults to only allowing free, open-source software, and you must opt-in to allow the installation of proprietary software.
 
 TODO picture of installation
 
 ### first boot
 
-Everything is installed, and after a quick reboot, it's time to take a look at the OS.
+Now that the installation is complete, I do a quick reboot, and it's time to explore the OS.
 
-During the installation, two very important Nix files have been generated right away: the config files.
+During the installation, Nix created two essential files: the configuration files for the hardware and software.
 
-In nixos, we don't have access to a package manager like apt or a software center to install new software. Instead, we have to use these configuration files if we want to add something new. 
+In nixos, we don't have access to a package manager like apt or a software center to install new software. Instead, we have to use these configuration files to add anything new. 
 
-First is the hardware configuration. This file tells nix what hardware it's working with, including CPU architecture, hard drives, and a network card. It also sets up the firmware we need, sets the CPU architecture, and points out hard drive partitions. 
+First is the hardware configuration. This file tells Nix what hardware it's working with, including CPU architecture, hard drives, and a network card. It also sets up the firmware we need, sets the CPU architecture, and points out hard drive partitions. 
 
-In short, hardware config lives here and is something managed by Nix itself; we don't edit this file by hand.
+In short, Nix manages all hardware and this file automatically; we don't manually edit this file.
 
 ``` nix
-# Do not modify this file!  It was generated by ‘nixos-generate-config’
-# and may be overwritten by future invocations.  Please make changes
+# Do not modify this file! It was generated by 'nixos-generate-config'
+# and may be overwritten by future invocations. Please make changes
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
 
@@ -173,7 +181,7 @@ In short, hardware config lives here and is something managed by Nix itself; we 
   boot.kernelModules = [ "KVM-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
+  fileSystems." /" =
     { device = "/dev/disk/by-uuid/cca9e208-4d2a-4a8e-8b87-0c17d0a96475";
       fsType = "ext4";
     };
@@ -189,8 +197,8 @@ In short, hardware config lives here and is something managed by Nix itself; we 
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-network it's
-  # still possible to use this option, but it's recommended to use it in conjunction
+  # (the default) This is the recommended approach. When using systemd-network,
+  # It is still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.use DHCP = lib.mkDefault true;
   # networking.interfaces.enp38s0.useDHCP = lib.mkDefault true;
@@ -205,17 +213,17 @@ In short, hardware config lives here and is something managed by Nix itself; we 
 
 Next up is the configuration.nix file, and here is where the magic happens. 
 
-This file works like a blueprint of the OS we want to set up. Any changes we want to make to our system are done using this file. 
+This file is a blueprint for the OS we want to set up. We use it to make any changes to our system. 
 
-Here is the biggest difference between Nix and other distributions: Since the OS is immutable, we don't install anything in the normal way; instead, we rebuild the entire system with the added software bundled into it. 
+Here is the most significant difference between Nix and other distributions: Since the OS is immutable, I will not install anything the usual way; instead, I will rebuild the entire system with the added software bundled into it. 
 
 So, if we take a look at my config file at first boot: 
 
 
 ``` nix
  Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# your system. Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running 'nixos-help').
 
 { config, pkgs, ... }:
 
@@ -292,11 +300,11 @@ So, if we take a look at my config file at first boot:
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.hest = {
     isNormalUser = true;
     description = "hest";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -316,14 +324,14 @@ So, if we take a look at my config file at first boot:
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
+  # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
+  # Some programs need SUID wrappers, can be configured further, or are
   # started in user sessions.
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
@@ -343,11 +351,11 @@ So, if we take a look at my config file at first boot:
   # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
+  # Settings for stateful data, like file locations and database versions
+  # on your system were taken. It's perfectly fine and recommended to leave
+  # This value is at the release version of the first install of this system.
   # Before changing this value, read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  # (e.g., man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
 }
@@ -356,7 +364,7 @@ So, if we take a look at my config file at first boot:
 Here we can see a couple of exciting things: 
 
 We have a set of different domains that we configure in this file, 
-First, a couple that gets configured during the installation, and that I'll leave as is:
+First, a couple that get configured during the installation and that I'll leave as is:
 
 - boot
 - networking
@@ -365,7 +373,7 @@ First, a couple that gets configured during the installation, and that I'll leav
 - users
 
 
-And then we have the three main domains that will add software to our system: 
+Then, we have the three main domains that will add software to our system: 
 
 #### system packages
 
@@ -378,7 +386,7 @@ environment.systemPackages = with pkgs; [
 
 ```
 
-This is the basic form of installation: simply making a binary available systemwide without any extra configuration options.
+System packages are the primary installation form: they make a binary available systemwide without extra configuration options.
 Similar to running apt install.
 
 #### programs
@@ -395,8 +403,8 @@ programs = {
   };
 };
 ```
-Programs lets us add some extra configuration to an app or tool we install.
-Programs is a great option if we want to add some config right from the get-go, use some nix-specific integration, or set up system defaults when you add a new app.
+Programs let us add extra configuration to an app or tool we install.
+Programs are a great option if we want to add some config right from the get-go, use some nix-specific integration, or set up system defaults when you add a new app.
 
 
 #### services
@@ -405,33 +413,33 @@ Programs is a great option if we want to add some config right from the get-go, 
 services = {
   nginx = {
     enable = true;
-    virtualHosts."example.com" = {
+    virtualHosts." example.com" = {
       root = "/var/www/example";
     };
   };
 };
 ```
 
-Services handles everything related to background tasks. Here, we can use an additional setup to set up background processes after the install and configuration step. Services allows us to set up VPNs, databases, web servers, and anything else handled as background deamons.
+Services handle everything related to background tasks. After the installation and configuration step, we can use an additional setup to set up background processes. Services allow us to set up VPNs, databases, web servers, and anything else handled as background daemons.
 
 
 So, I'm basing my decision on which to use on three questions:
 
-  1. Just need the software available? - `systemPackages`
+  1. Do I only need the software available? - `systemPackages`
   2. Need som extra configuraiton? - `programs`
   3. Will it run in the background? - `services`
 
-But of course, availability will also factor in; there are a lot more packages compared to programs in the Nix package manager, so sometimes the hand is forced.
+Of course, availability will also factor in; the Nix package manager contains many more packages than programs, so sometimes the hand is forced.
 
-That's it for installation; lets start using the system.
+That's it for installation; let's start using the system.
 
 ## configuration
 
 ### first updates
 
-So lets give it a go, first on the list:
+So let's give it a go; first on the list:
  
-- vim (instead of the bundled nano)
+- Vim (instead of the bundled nano)
 - bitwarden as a password manager
 - fish as my interactive shell
 - git
@@ -441,9 +449,9 @@ So lets give it a go, first on the list:
 - discord
 - slack
 
-to figure out what is available to install, I'm using the [NixOS package search](https://search.nixos.org/packages), and after a quick check, making sure everything i want to install is available, the config is as simple as writing a couple of lines to my systemPackage attribute like this:
+To figure out what is available to install, I'm using the [NixOS package search](https://search.nixos.org/packages), and after a quick check, making sure everything I want to install is available, the config is as simple as writing a couple of lines to my systemPackage attribute like this:
 
-```nix
+"`nix
 environment.systemPackages = with pkgs; [
    vim 
    gnomeExtensions.pop-shell
@@ -457,9 +465,9 @@ environment.systemPackages = with pkgs; [
 
 ```
 
-For steam, which has some extra config options, I'll add this:
+For Steam, which has some extra config options, I'll add this:
 
-```nix
+"`nix
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -469,35 +477,34 @@ For steam, which has some extra config options, I'll add this:
 
 ```
 
-and as a final touch, I want to add fish as the default shell for my user, updating the users item for my user:
+As a final touch, I want to add fish as the default shell for my user, updating the user's item for my user:
 
 ``` nix
  users.users.hest = {
     isNormalUser = true;
     description = "hest";
     shell = pkgs.fish;  # NEW LINE
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
   };
 
 ```
 
-Adding this to the configuraiton file itself wont do much, but the blueprint for new generataion is ready to be built.
+Adding this to the configuration file itself won't do much, but the blueprint for the new generation is ready to be built.
 
-this is done using the nix cli command `nixos-rebuild`.
+Building a new generation is done using the `nixos-rebuild` cli command.
 
-`nixos-rebuild switch` will build the config and activate the new generation right away, so any new binaries install are available, and will also add a new record to the boot-loader menu, making the new generation default. 
+`nixos-rebuild switch` will build the config and activate the new generation immediately, so any new binaries installed are available. It will also add a new record to the bootloader menu, making the latest generation the default. 
 
 TODO PICTURE OF BOOTLOADER
 
-Its also possible to tag the generation, just add the flag `-p NAME` or `--profile-name NAME`, giving a more discriptive name other than the date it was built.
+It's also possible to tag the generation. Just add the flag `-p NAME` or `--profile-name NAME`, giving a more descriptive name other than the build date.
 
-
-So first generation has been created, and all the new packages are available right away, just like that.
+Nix has compiled the first of many generations, and all the new packages are available immediately.
 
 ### auto login
-Great, now its much more manageable to edit files with vim, so lets add some more config, next up is a small tweak to autologin on boot: 
+Great, now it's much more manageable to edit files with Vim, so let's add some more config; next up is a minor tweak to autologin on boot: 
 
-first attempt didn't quite pan out, went to [nix options search]() and found this, which looked promising
+The first attempt didn't quite pan out, so I went to [nix options search]() and found this, which looked promising
 
 ``` nix
   # autologin without password
@@ -506,12 +513,12 @@ first attempt didn't quite pan out, went to [nix options search]() and found thi
 
 ```
 
-Added the lines to config and did a `nixos-rebuild switch`, no problem detected, new generation created.
-But when i rebooted to test it, something wasn't quite right. the OS booted alright, and even logged in automaticly, but a second later i was kicked out it went back and forth like that. 
+I added the lines to the config and did a `nixos-rebuild switch`; I could not see any problems, and Nix compiled a new generation.
+But when I rebooted to test it, something wasn't quite right. The OS booted all right, and I even logged in automatically, but a second later, the desktop kicked me out and logged me back in. And on and on it went.
 
-No worries, lets just reboot into the previous generation, and everything is as good as rain again.
+No worries. Let's reboot into the previous generation; everything will be as good as rain again.
 
-After some scanning around the forums i found a workaround: 
+After some scanning around the forums, I found a workaround: 
 
 ``` nix
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
@@ -519,16 +526,16 @@ After some scanning around the forums i found a workaround:
   systemd.services."autovt@tty1".enable = false;
 ```
 
-not about the root cause, but if it works it works right? [forum discussion](https://discourse.nixos.org/t/gnome-display-manager-fails-to-login-until-wi-fi-connection-is-established/50513/14)
+I don't know the root cause, but if it works, it works. [forum discussion](https://discourse.nixos.org/t/gnome-display-manager-fails-to-login-until-wi-fi-connection-is-established/50513/14)
 
 
-### containerization and VPN
+### Containerization and VPN
 
 next up - virtualization and VPN
 
-I'm using [Tailscale](https://tailscale.com/) for a private network between my machine, and setting up this in nix is a oneliner service addition:
+I'm using [Tailscale](https://tailscale.com/) for a private network between my machine, and setting up this in nix is an oneliner service addition:
 
-Virtualization with podman is handled in its own "domain" called "Virtualisation":
+Virtualization, in this case with podman containers, will be configured in its own "domain" called "Virtualisation":
 [Wiki](https://wiki.nixos.org/wiki/Podman)
 
 ``` nix
@@ -541,17 +548,17 @@ Virtualization with podman is handled in its own "domain" called "Virtualisation
     podman = {
       enable = true;
 
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      # Create a `docker` alias for podman, to use as a drop-in replacement
       dockerCompat = true;
 
-      # Required for containers under podman-compose to be able to talk to each other.
+      # Required for containers under podman-compose to talk to each other.
       defaultNetwork.settings.dns_enabled = true;
     };
   };
 
 ```
 
-then lets add some useful CLI tools: 
+Then, let's add some useful CLI tools: 
 
 ``` nix
   environment.systemPackages = with pkgs; [
@@ -568,19 +575,19 @@ then lets add some useful CLI tools:
 
 ```
 
-One `nixos-rebuild switch` later, and we have tailscale VPN and podman containers ready to go.
+One `nixos-rebuild switch` later, and we have Tailscale VPN and podman containers ready.
 
 ### nix-shell
 
-But what if i just need a cli tools once in a blue moon, or just want to get a feel for some alternatives before you permanently install it?
+But what if I only need cli tools once in a blue moon or want to try some alternatives before you permanently install them?
 
-Thats where the nix-shell comes into play.
+That's where the nix-shell comes into play.
 
-nix shell lets me create a temporary PATH enviroment, install all the dependencies needed by a package and have it availible only as long as the current session is running. Rebooting the system will clean up all the temporary files the package has used.
+Nix shell lets me create a temporary PATH environment, install all the dependencies needed by a package, and make it available only as long as the current session is running. Rebooting the system will clean up all the temporary files the package has used.
 
-So say i need to get some data from a json, but cant be bothered installing jq the normal route: editing config, rebuilding, creating a new generation, just for a one off command?
+So, I need to get some data from a JSON but can't be bothered installing jq the usual route: editing config, rebuilding, creating a new generation, just for a one-off command?
 
-Lets handle it with nix-shell: 
+Let's handle it with nix-shell: 
 
 ``` shell
 hest@nixos ~> jq
@@ -600,32 +607,31 @@ these 55 paths will be fetched (74.04 MiB download, 349.22 MiB unpacked):
 {}
 ```
 
-A nice feature to have, being able to setup a quick test environment, test out some fun app or CLI i found online, and when im done, not having to worry about just files and unused packages clogging down the system. 
+A nice feature is setting up a quick test environment and trying out some fun apps or CLIs I found online. I do not have to worry about files and unused packages clogging the system.
 
 
 ### nix-command and flakes
+Speaking of features, let's do a quick detour and take it at Nix Flakes.
 
-Speaking of features, lets do a quick detour and take at nix flakes.
+I know I said I wouldn't be using flakes today, but this will be quick: I'll make the system ready for it and test out a flake I found.
 
-I know i said i wont be using flakes today, but this will be quick, just makeing the system ready for it, and test out a flake i found.
-
-So in order to enable some experimental features, we add this line to our config:
+So, to enable some experimental features, we add this line to our config:
 
 ``` nix
-nix.settings.experimental-features = [ "nix-command" "flakes" ];
+nix.settings.experimental-features = ["nix-command" "flakes"];
 ```
 
-Rebuild, and we have both flakes and the new nix command at our fingertips. 
+Rebuild, and we have flakes and the new Nix run command at our fingertips. 
 
-To test it out,I did do some experimentation with this flake: [nixified-AI](github:nixified-ai/flake#invokeai-amd) a flake of [InvokeAI](https://www.invoke.com/), a platform to run text-to-image AI locally. 
+To test it out, I did do some experimentation with this flake: [nixified-AI](github:nixified-ai/flake#invokeai-amd), a flake of [InvokeAI](https://www.invoke.com/), a platform to run text-to-image AI locally. 
 
-at first i tried to run it directly from GitHub
+At first, I tried to run it directly from GitHub.
 
 ``` shell
 nix run Github:nixified-ai/flake#textgen-amd
 ```
 
-But something didn't click, the installation stalled and never finish, or truth be told, i gave up when it was still running after i had been away for 20 minutes. 
+But something didn't click. The installation stalled and never finished, or truthfully, I gave up when it was still running after I had been away for 20 minutes. 
 
 The next attempt was to download the repo and run it locally. 
 
@@ -635,47 +641,47 @@ cd flake
 nix run .#invokeai-amd
 ```
 
-2-3 min of installation later,and i have a local text-to-image AI running on my GPU, working like a charm.
+Two to three minutes after installation, I have a local text-to-image AI running on my GPU, working like a charm.
 
-### Gaming and mounting extra hard-drives
+### Gaming and mounting extra hard drives
 
-Right about now im feeling good with the programs and tools installed, everything installed "just works" right out of the bat. 
+Right now, I'm feeling good about the programs and tools I've installed. Everything installed "just works" right out of the box. 
 
-Next up was setting up the main puropose if this machine: Gaming.
-Steam installed, proton enabled, [Against the Storm](https://store.steampowered.com/app/1336490/Against_the_Storm/) downloaded and off we go. 
+Next up was setting up the primary purpose of this machine: Gaming.
+I installed Steam, enabled Proton, Downloaded [Against the Storm](https://store.steampowered.com/app/1336490/Against_the_Storm/), and with a heart full of hope, started up the game. 
 
-Works perfectly, great FPS, no screen tearing, artifacts or other graphical issues.
-No strange behaiviour with keyboard or mouse, and i think the GPU barely started up the fans running it, 10/10. 
+It worked perfectly, had great FPS, and had no screen tearing, artifacts, or other graphical issues.
+There was no strange behavior with the keyboard or mouse, and the GPU barely started the fans running it. 10/10. 
 
-But since i have multiple SSDs in my system and the OS installed my "tiny" 500GB M.2 drive, i would prefer to put all my games the 1TB NVME drive, just incase i once again manage to ruin the OS, and to be honest it does feel inevitable, given enough time and tinkering. 
+But since my system has multiple SSDs and the OS installed on my "tiny" 500GB M.2 drive, I would prefer to put all my games on the 1TB NVME drive in case I once again manage to ruin the OS. To be honest, it does feel inevitable, given enough time and tinkering. 
 
+I can only see the primary disk right now, so it seems my extra Sata drives are not mounted. Let's see how I can remedy that.
 
-Right now i can only see the main disk, so seems my extra Sata drives are not mounted, lets see how that can be remidied.
+To solve this issue, we need to look at hardware-configuration.nix.
 
+The solution required some manual steps, but it can be handled automatically with scripts or more profound Nix knowledge. 
 
-This is where to hardware-configuration.nix comes into play.
+But how I solved it today was by doing the following:
 
-The solution i found did require a couple of manual steps, but I'm sure it can be handled automatically, either with scripts or with some deeper nix knowledge, but what i did was:
-
-  1. mount the drives (make sure they are mounted under /mnt and not /tmp/run/ which gnomes "disks" app will do by default; It wont work if they are in temp folder)
+  1. mount the drives (make sure to mount them under /mnt and not /tmp/run/, which gnomes "disks" app will do by default; It won't work if they are in the temp folder)
   2. update the hardware config by running `sudo nixos-generate-config` 
-  3. profit, now we have the disk mounted at boot, managed by nix.
+  3. profit: now we have the disk mounted at boot, managed by Nix.
 
-No, its not to much trouble, and yes, i would survive manually performing this herculean feat of strength every time i set up a system from scratch, but wouldn't it be nice if this was done for you? For now i put it aside and put my future hopes toward [Home Manager](https://nix-community.github.io/home-manager/) and [Flakes](https://nix.dev/concepts/flakes) to solve this.
+No, it's not too much trouble, and yes, I would survive manually performing this herculean feat of strength every time I set up a system from scratch, but wouldn't it be nice if Nix did it for you? For now, I put it aside and put my future hopes toward [Home Manager](https://nix-community.github.io/home-manager/) and [Flakes](https://nix.dev/concepts/flakes) to solve this.
 
 ### found issue with command not found 
 
-Ran into to an issue when typing away at the terminal, an unplesant database error popped up every time I fat-fingered a command.
+I ran into an issue when typing away at the terminal. An unwelcome database error popped up every time I fat-fingered a command.
 
 ``` shell
 hest@nixos ~> claer
-DBI connect('dbname=/nix/var/nix/profiles/per-user/root/channels/nixos/programs.sqlite','',...) failed: unable to open database file at /run/current-system/sw/bin/command-not-found line 13.
-cannot open database `/nix/var/nix/profiles/per-user/root/channels/nixos/programs.sqlite' at /run/current-system/sw/bin/command-not-found line 13.
+DBI connect('dbname=/nix/var/nix/profiles/per-user/root/channels/nixos/programs.sqlite',",...) failed: unable to open database file at /run/current-system/sw/bin/command-not-found line 13.
+Cannot open database `/nix/var/nix/profiles/per-user/root/channels/nixos/programs.sqlite' at /run/current-system/sw/bin/command-not-found line 13.
 hest@nixos ~ [127]> 
 ```
 
-Seems this had something to do with the channel nix was listening to by default, and the programs.SQLite database is only handling channels prefixed by `nixos-` and not `nixpkgs-`,
-Just adding the proper nixos-unstable channel and a quick update, and no more DB issues.
+The issue was about the channel Nix was listening to by default and the programs. The SQLite database only handles channels with the `nixos—' prefix and not the `nixpkgs—` prefix.
+I'm just adding the proper `nixos-unstable` channel and a quick update, and there are no more DB issues.
 
 
 ``` shell
@@ -696,31 +702,30 @@ As an added benefit, this also updated me from using the stable "LTS" release of
 
 [source](https://discourse.nixos.org/t/command-not-found-unable-to-open-database/3807/4)
 
-### clean up the nix store
+### Clean up the Nix store
 
-As a final step in this config i wanted to tidy up a bit around the nix store and bootloader. 
+As a final step in this config, I wanted to tidy up around the Nix store and bootloader. 
 
-with all the different derivations and generations after a couple of weeks of tinkering and rebuilding, the size of the nix store can grow rather large.
+With all the different derivations and generations, the size of the Nix store can grow rather large after a couple of weeks of tinkering and rebuilding.
 
 ``` shell
 hest@nixos ~> du /nix/store/ -sh
 21G	/nix/store/
 ```
 
-21 GB might not be to bad, but this will grow quickly, every new package adding to the total, and every generation will add a new record to our bootloader, making that swell up aswell.
+21 GB might be all right, but this will snowball, with every new package adding to the total. Every generation will add a new record to our bootloader, making that swell up.
 
 TODO picture of bootloader
 
+Step one: Let's see how to clean up old generations manually.
 
-Step one: Lets see how it can be done manually.
-
-Starting out by finding all the stored generations on the system:
+Starting by finding all the stored generations on the system:
 
 ``` shell
 nix-env --list-generations
 ```
 
-Will do the trick, but since i have installed everything system-wide (using the sytemPackages domain),
+It will do the trick, but since I have installed everything systemwide (using the sytemPackages domain),
 I also need to point out that I'm using the system profile in this case:
 
 ``` shell
@@ -735,8 +740,7 @@ sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
    7   2024-10-20 20:45:41   
    8   2024-10-22 21:23:08   (current)
 ```
-
-For this manual step, we can try to clear up all the older generations
+Let's remove every generation except the current one.
 
 ``` shell
 sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system
@@ -744,28 +748,30 @@ sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
 
    8   2024-10-22 21:23:08   (current)
 ```
-Great, no trouble here, so lets look at the store now that we have some dangling packagees from the old generations. 
-The nix-store cli lets us do manual garbage-collection:
+Step two: clean up the Nix store.
+Now that we have some dangling packages from the old generations let's look at the store. 
+The nix-store cli lets us do manual garbage collection:
 
 ``` shell
 nix-store --gc
 deleting unused links...
-note: currently hard linking saves 4337.25 MiB
+note: currently, hard linking saves 4337.25 MiB
 1155 store paths deleted, 654.20 MiB freed
 ```
 
-But according to the documentation, this is a command you should not have to handle manually in normal circumstances.
+However, according to the documentation, this is a command you should not have to handle manually in normal circumstances.
 
-So lets automate this using our configuration instead.
+Step three: automation.
+So, let's automate this using our configuration instead.
 
 The [Wiki](https://nixos.wiki/wiki/Storage_optimization) 
-shows that its possbile to handle cleanup for both the generations and the store automaticly in a couple of different ways.
+shows that it's possible to automatically handle cleanup for the generations and the store in several ways.
 
-The most straightforward options seems to be a scheduled cleanup, and i think I will go for once a week,
-and only keep the last 3 generations, so if anything goes wrong in the future, i have something to revert back to.
+The most straightforward option seems to be a scheduled cleanup, and I think I will go for once a week,
+and only keep the last three generations, so if anything goes wrong in the future, I have something to revert to.
 
-For the store cleanup i opted for an even easier option, optimise after every build, so from now on,
-every time i build a new generation, a cleanup of dangling packages will be performed.
+For the store cleanup, I opted for an even easier option, optimizing after every build, so from now on,
+Every time I build a new generation, I clean up dangling packages.
 
 ``` nix
   nix.gc = {
@@ -780,41 +786,41 @@ every time i build a new generation, a cleanup of dangling packages will be perf
 
 ## outro
 
-And with that the MVP config for my NixOS build is complete, 
-and this is the configuration ive been using as a daily driver for about two-three weeks now.
+And with that, the MVP config for my NixOS build is complete, 
+I've used this configuration as a daily driver for about two to three weeks.
 
-Almost all of the config work was done upfront, and during the last two weeks
-ive only added some minor tweaks: replacing a package here, adding some extra config there.
-Overall the system has been rock solid, and so far im really happy with how it turned out. 
+Almost all of the config work was done upfront and during the last two weeks,
+I've only added some minor tweaks: replacing a package here and adding some extra configuration there.
+Overall, the system has been rock solid, and I'm pleased with the results. 
 
 Now for the finishing touch, the pièce de résistance of this build:
-I will completly wipe my hard-drive, reinstall NixOS from strach using my config file and see if there is anything missing.
+I will completely wipe my hard drive, reinstall NixOS from scratch using my config file, and see if anything is missing.
 
-So lets save this config to github, wipe it all and see what happends.
+So, let's save this config to Git Hub, wipe it all, and see what happens.
 
-TODO add pictures of Installation
+TODO add pictures of the installation
 
 
-And were back! 
+And we're back! 
 
-the whole installation took about 30 min, from pressing reboot until i started writing here again, and that is after checking that everything is in place, logging into a couple of apps and settings up github access. 
+The whole installation took about 30 minutes, from pressing reboot until I started writing here again. That is after checking that everything is in place, logging into a couple of apps, and setting up GitHub access. 
 
-all in all, the manual step i still need to perform are:
-- copy my configuration file from public GitHub repo
+All in all, the manual steps I still need to perform are:
+- copy my configuration file from my public GitHub repo
 - nixos-rebuild switch
-- reboot to get the gnome extension pop-shell show up. 
+- reboot to get the gnome extension pop-shell to show up. 
 - enable pop shell and toggle tiling windows.
 - mount disks + run sudo nixos-generate-config
 - update nix-channel to handle "command not found"
-- login to bitwarden, firefox google account, slack, discord, spotube, supersonic
-- login to steam, enable compatability layer, add extra harddrives.
-- pair up PS5 controller over bluetooth. 
+- login to bitwarden, Firefox Google account, slack, discord, spotube, supersonic
+Log in to Steam, enable the compatibility layer, and add extra hard drives.
+- pair up the PS5 controller over Bluetooth. 
 
-So there are still some small "issues" that i would like to remedy, and with [Flakes](https://nix.dev/concepts/flakes) and [Home Manager](https://nix-community.github.io/home-manager/) i think most can be resolved. 
+So, there are still some minor "issues" that I would like to remedy, and with [Flakes](https://nix.dev/concepts/flakes) and [Home Manager](https://nix-community.github.io/home-manager/), I think I will be able to resolve them. 
 
-Im not sure if its possible, or even desirable to handle app logins through config, perhaps a private Github gist with secrets and access tokens could handle it? something i have to look into in the future. 
+I'm unsure if handling app logins through config is possible or even desirable. Perhaps a private Github gist with secrets and access tokens could handle it. But I have to look into that kind of fine-tuning in the future. 
 
-Adding to that, i might as well provide my current TODO list for NixOS while I'm at it, in no particular order:
+Speaking of the future, I might as well provide my current TODO list for NixOS while I'm at it, in no particular order:
 
 - handle config
   - [Flakes](https://nix.dev/concepts/flakes) 
@@ -837,17 +843,17 @@ Adding to that, i might as well provide my current TODO list for NixOS while I'm
 - Userfriendly alternative
   - [SnowflakeOS](https://snowflakeos.org/)
 
-But for today i will leave it at that, and i hope i managed to show a fair view of what a journey with NixOS Desktop can entail, atleast from a beginners point of view.
+But for today, I will leave it at that. I hope I have given a fair view of what a journey with NixOS Desktop can entail, at least from a beginner's point of view.
 
-Thank you for sticking around, and i will leave you with a look at the final config for this session.
+Thank you for sticking around. I will leave you with the final config for this session.
 
 
 #### configuration.nix
 
 ``` nix
 # Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# your system. Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running 'nixos-help').
 
 { config, pkgs, ... }:
 
@@ -938,7 +944,7 @@ Thank you for sticking around, and i will leave you with a look at the final con
     podman = {
       enable = true;
 
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      # Create a `docker` alias for podman to use as a drop-in replacement
       dockerCompat = true;
 
       # Required for containers under podman-compose to be able to talk to each other.
@@ -1031,8 +1037,8 @@ Thank you for sticking around, and i will leave you with a look at the final con
 #### hardware-configuration.nix
 
 ``` nix
-# Do not modify this file!  It was generated by ‘nixos-generate-config’
-# and may be overwritten by future invocations.  Please make changes
+# Do not modify this file! It was generated by 'nixos-generate-config'
+# and may be overwritten by future invocations. Please make changes
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
 
@@ -1046,7 +1052,7 @@ Thank you for sticking around, and i will leave you with a look at the final con
   boot.kernelModules = [ "KVM-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
+  fileSystems." /" =
     { device = "/dev/disk/by-uuid/d15bc54f-14a3-46ad-ac2e-4491cf0ef8e1";
       fsType = "ext4";
     };
@@ -1072,8 +1078,8 @@ Thank you for sticking around, and i will leave you with a look at the final con
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-network it's
-  # still possible to use this option, but it's recommended to use it in conjunction
+  # (the default) This is the recommended approach. When using systemd-network,
+  # It is still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp38s0.useDHCP = lib.mkDefault true;
