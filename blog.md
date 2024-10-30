@@ -3,77 +3,76 @@
 It started as a simple wish to spice up a blog post with some AI-generated images,
 but ended with a ruined OS and a weekend spent writing config and reading docs.
 
-While writing my last blog post, I had the idea to zhuzh it up a bit with some images,
-It just so happened to be, that I have quite the powerful GPU sitting in my PC, begging for some AI rendering experimentation.
+While writing my last blog post, I had the idea to spice it up with images. Since my machine has quite a powerful GPU, this is an excellent opportunity to experiment with AI rendering.
 
-The first step seemed simple enough: install ROCM, AMD's version of CUDA to get the AI and GPU talking.
-Running PopOS, installation is as easy as running apt install, and that will be all it takes to start rendering.
+The first step was simple: install ROCM, AMD's version of CUDA, to get the AI and GPU talking.
+Running PopOS installation is as easy as running apt install, and that will be all it takes to start rendering.
 
-However, nothing is ever that easy.
+Nothing is ever that easy.
 
-For anyone else, this might have been it, but my attempt failed and failed so utterly and so brutally that the SSD containing the bootloader disappeared from the system, gone with a digital wind, never to be seen again.
+This command might have been it for anyone else and should have been. Still, my attempt failed so utterly and brutally that the SSD containing the bootloader disappeared from the system, gone with a digital wind, never to be seen again.
 
-So after a dark, stormy, week-long troubleshooting session compressed into a single Sunday afternoon, pulling both hair and SATA cables, I finally threw in the towel and tallied up the system as condemned. 
+So, after a dark, stormy, week-long troubleshooting session compressed into a single Sunday afternoon, during which I pulled both hair and SATA cables, I finally threw in the towel and tallied up the system as condemned. 
 
 Now that the OS was beyond salvation, the only way forward was to raze the ruins of my once-working PC, 
 pave over the lot and rebuild from scratch.
 
-So not every step went exactly according to plan, but I did find a silver lining in this catastrophic failure: NixOS.
-Being forced to start from scratch did push me to pick up an old project that had been puttering along in my ever-increasing backlog of personal projects, trying out NixOS as a daily driver.
+So, everything didn't go according to plan, but I found a silver lining in this catastrophic failure: NixOS.
+Being forced to start from scratch pushed me to pick up an old project, puttering along in my ever-increasing backlog of personal projects: trying out NixOS as a daily driver.
 
-TODO - picture of "Everything not saved will be lost --Nintendo quit screen"
+TODO - picture of "Everything not saved will be lost --Nintendo quit screen."
 
-## What is Nix, and why use it?
+## What is Nix, and why is it used?
 
-So what is Nix? it seesm like depending on how you hold it and which parts you are exposed to first, you could describe something completely different.
+So, what is Nix? Depending on how you hold it and which parts of Nix you are exposed to first, you could describe something completely different.
 
 Is it an operating system? A package manager? A configuration language? A development environment?
 
-The answer is: yes.
+The answer: Yes.
 
-Nix is actually an entire ecosystem of tools that work together and can help us build immutable, reproducable systems.
+Nix is an entire ecosystem of tools that work together and can help us build immutable, reproducible systems.
 
 [nix.dev](https://nix.dev/index.html)
 
-### The nix Ecosystem
+### The Nix Ecosystem
 #### Nix (the package manager)
-The package manager the entire ecosystem is built around. 
-the novelty of this manager comperd to traditional ones such as apt, dnf or pacman is that every package get installed in its own isolated box, preventing one package from breaking another, and avoiding the "dependecy hell" that can arise on other distros.
+The entire Nix ecosystem is built on top of and managed by this package manager.
+Unlike traditional apt, dnf, or Pacman, this manager is unique because every package Nix installs does so in an isolated box. This isolation prevents one package from breaking another and avoids the "dependency hell" that can arise on other distros.
 #### Nix (the language)
-A purely functinal language designed for package and config management.
+A purely functional language designed for package and config management.
 #### Nix (the operating system)
-A linux distribution built around the nix package manager, here the entire system is treated as one reproducable package.
+NixOS is a Linux distribution based on the Nix package manager. The system is not cobbled together over time by different parts; instead, it is treated as one reproducible package.
 #### Modules
-The building blocks of nix configuratrion. Each module is a self-contained unit containing its own options, servies and configurations.
+Modules are the building blocks of all Nix configurations. Each module is self-contained with options, services, and configurations.
 #### Channels 
-Simillar to linux distribution repositories, these collelctions of packages and modules are different streams of software nix can fetch from, each stream having its own update frequency and stability.
-  - nixos-unstable: bleeding edge, rolling release updates
-  - nixos-YY-MM: stable, regular release stream, updated every 6 month (YY.04 and YY.11)
+Similar to Linux distribution repositories, these collections of packages and modules are different streams of software that Linux can fetch from, each stream having a separate update frequency and stability level.
+  - NixOS-unstable: bleeding edge, rolling release updates
+  - NixOS-YY-MM: stable, regular release stream, updated every 6 months (YY.04 and YY.11)
 #### Nix store
-located at `/nix/store`, this is where all packages and configuration is found. Each package is stored under a unique hash that also contains all of the packages dependecies. this structure is what enables nix to guarantee both reproducablity and a promise that updates wont break existing packages.
+The Nix store is in the system folder `/nix/store,` where all installed packages and dependencies are found. Nix stores each package under a unique hash containing its dependencies and the package itself. This structure enables Nix to guarantee reproducibility and the promise that updates won't break existing packages.
 #### Generations
- A nix generation is a snapshot of the systems current state. Every time the system configuration is changed, a package is added or removed, a new generation is created. These generations can be used like git commits, we can jump back to a previsous commit if the latest is not up to par, and just like git handles diffs between commits, the unchanged packages in the nix store are shared between generations, meaning large storage savings on the disk.
+ A nix generation is a snapshot of the system's current state. A new generation is created every time the system configuration changes or a package is added or removed. These generations can be used as git commits; we can jump back to a previous commit (generation) if the latest is not up to par. Just like git handles diffs between commits, the unchanged packages in the nix store are shared between generations, meaning large storage savings on the disk.
 
 
 ### Nix compared to traditional distributions
 
-Compared to a traditional distribution , a nix configuaration is completly declarative, so everything i stored in documeted, version-controlled files. 
-So instead of having a system state that evolves and changes over time, nix is closer to a "Infrastructure-as-code" approach,
-the system is the code, and we cah build, backup and deploy it just like code.
+Unlike a traditional distribution, where the system and config are changed ad hoc and over time, a Nix configuration is declarative, and the code responsible is stored in documented, version-controlled files. 
+So, instead of having a system state that evolves and changes over time, nix is closer to an "Infrastructure-as-code" approach,
+the system is the code, and we can build, backup, and deploy it just like code.
 
-A nix system is immutable, so unlike other sytems where installing a new package might silently update a shared dependcy, every package in nix is isolated, and in this containerized enviroment, everything the package needs to function is included, so having different version fo the same software is no longer an issue.
+A Nix system is immutable, so unlike other systems where installing a new package might silently update a shared dependency, every package in Nix is isolated. In this containerized environment, everything the package needs to function is included, so having different versions of the same software is no longer an issue.
 
-Updating and testing new features with nix is safe and easy, building a new generation is an atomic operation, so either everything works together, or the generation wont build at all. And if something would turn out broken in the newly build generation, swapping back to a working system is as easy as a reboot.
+Updating and testing new features with Nix is safe and easy. Building a new generation is an atomic operation, so everything included is compiled together, or the generation won't build at all. And if something breaks in the newly built generation, swapping back to a working system is as easy as a reboot.
 
 
-### features of the future
+### Features of the future
 
-My nix journey will start from scratch, and i will, at least for today, confine myself to the nix core, but there are two advanced features that i would like to take a look at in the future:
+My Nix journey will start from scratch, and I will, at least for today, confine myself to the Nix core, but there are two advanced features that I would like to take a look at in the future:
 
 #### flakes
 
 [Flakes](https://nix.dev/concepts/flakes) are the "new" feature of nixos, which has been in an experimental state since 2021. 
-Flakes brings an additional layer of reproducibility and structure to a nix config, allowing nix to:
+Flakes brings an additional layer of reproducabiltiiy and structure to a nix config, allowing nix to:
 
 - Lock all your dependencies to specific versions
 - Create reproducible development environments
@@ -100,7 +99,7 @@ A simple flake might look something like this:
 ```
 
 There is much discussion around flakes being the next evolution within nix,
-but its a bit more complex to wrap your head around, and will add to an already quite steep learning curve,
+but it's a bit more complex to wrap your head around, and will add to an already quite steep learning curve,
 so atleast for today, i will leave them be.
 
 
@@ -111,7 +110,7 @@ Instead of manually configuration a pile of different dotfiles (.zshrc, .vimrc) 
 
 So everything normaly spread out into dotfiles and optiosn menues would be handled together with our system, backed up and secured, ready to be deployed on any machine, anytime. 
 
-So in short we could say the main benefits of a nix system is:
+So, in short, we could say the main benefits of a nix system are:
 
 - its declarative
 - config can be backed up
