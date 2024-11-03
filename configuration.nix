@@ -173,6 +173,7 @@
 
     # Nix
     nixfmt-rfc-style
+    nixpkgs-fmt
   ];
 
   nix.settings.experimental-features = [
