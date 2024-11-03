@@ -88,6 +88,9 @@
   # enable containerization ( podman ) 
   virtualisation.containers.enable = true;
   virtualisation = {
+    libvirtd = {
+      enable = true;
+    };
     podman = {
       enable = true;
 
@@ -100,6 +103,7 @@
   };
 
   # Install firefox.
+  programs.virt-manager.enable = true;
   programs.firefox.enable = true;
   programs.steam = {
     enable = true;
@@ -131,6 +135,8 @@
     zellij
     tre-command
     radeontop
+    xclip
+    neofetch
 
     # pw-manager 
     bitwarden
@@ -143,13 +149,22 @@
     supersonic
     spotube
 
+    # drawing
+    krita
+
     # containers
     podman
     podman-compose
     podman-desktop
+    
+    # Emulation
+    wineWowPackages.waylandFull # windows
+    darling # macos
+    virtiofsd
 
     # dev 
     git
+    gh
     vscodium
     mise
 
