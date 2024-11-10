@@ -51,11 +51,14 @@
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
-    variant = "";
+    variant = "intl";
   };
 
   # enable tailscale VPN
   services.tailscale.enable = true;
+
+  # enable zsa udev rules
+  hardware.keyboard.zsa.enable = true;  
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -162,6 +165,11 @@
     darling # macos
     virtiofsd
 
+
+    # AI
+    local-ai
+    lmstudio
+
     # dev 
     git
     gh
@@ -171,9 +179,13 @@
     # VPN
     tailscale
 
+    # zsa keymapper for moonlander
+    keymapp
+
     # Nix
     nixfmt-rfc-style
     nixpkgs-fmt
+    alejandra
   ];
 
   nix.settings.experimental-features = [
@@ -183,7 +195,7 @@
 
   nix.gc = {
     automatic = true;
-    dates = "weekly";
+    dates = "22:22";
     options = "--delete-older-than +3";
   };
 
