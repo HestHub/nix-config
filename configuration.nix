@@ -1,10 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -58,7 +59,7 @@
   services.tailscale.enable = true;
 
   # enable zsa udev rules
-  hardware.keyboard.zsa.enable = true;  
+  hardware.keyboard.zsa.enable = true;
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -88,7 +89,7 @@
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
 
-  # enable containerization ( podman ) 
+  # enable containerization ( podman )
   virtualisation.containers.enable = true;
   virtualisation = {
     libvirtd = {
@@ -125,7 +126,7 @@
     vim
     gnomeExtensions.pop-shell
 
-    # CLI 
+    # CLI
     navi
     tealdeer
     jq
@@ -141,7 +142,7 @@
     xclip
     neofetch
 
-    # pw-manager 
+    # pw-manager
     bitwarden
 
     # coms
@@ -159,18 +160,17 @@
     podman
     podman-compose
     podman-desktop
-    
+
     # Emulation
     wineWowPackages.waylandFull # windows
     darling # macos
     virtiofsd
 
-
     # AI
     local-ai
     lmstudio
 
-    # dev 
+    # dev
     git
     gh
     vscodium
@@ -202,5 +202,4 @@
   nix.settings.auto-optimise-store = true;
 
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
