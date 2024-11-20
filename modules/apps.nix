@@ -139,10 +139,7 @@
     };
 
     taps = [
-      #"homebrew/cask"
-      "homebrew/cask-fonts"
       "homebrew/services"
-      "homebrew/cask-versions"
     ];
 
     brews = [
@@ -158,7 +155,6 @@
       "insomnia"
       "iterm2"
       "jetbrains-toolbox"
-      "logitech-g-hub"
       "maccy"
       "microsoft-teams"
       "mqttx"

@@ -33,13 +33,13 @@ post-fix:
 		then echo "/etc/profiles/per-user/${M_USER}/bin" | sudo tee -a /etc/paths; fi
 
 #	copy iterm config to dynamic profiles if not already present
-	if [[ ! -f /Users/${M_USER}/Library/Application\ Support/iTerm2/DynamicProfiles/iterm2.json ]];\
-		then cp ./dotfiles/iterm2.json /Users/${M_USER}/Library/Application\ Support/iTerm2/DynamicProfiles/; fi
+#	if [[ ! -f /Users/${M_USER}/Library/Application\ Support/iTerm2/DynamicProfiles/iterm2.json ]];\
+#		then cp ./dotfiles/iterm2.json /Users/${M_USER}/Library/Application\ Support/iTerm2/DynamicProfiles/; fi
 
 #   rtx add plugins and install them
-	rtx plugin add dotnet
-	rtx plugin add azure-cli
-	rtx install
+	mise plugin add dotnet
+	mise plugin add azure-cli
+	mise install
 
 # 	enable shims support for IDEA IDEs ( they support asdf but not mise nativly)
 	ln -s ~/.local/share/mise ~/.asdf
