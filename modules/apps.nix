@@ -6,7 +6,6 @@
     skhd
   ];
   environment.variables.EDITOR = "nvim";
-  environment.loginShell = "/etc/profiles/per-user/hest/bin/fish";
 
   services.skhd = {
     enable = true;

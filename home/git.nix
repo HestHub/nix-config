@@ -91,6 +91,7 @@
       "bin/"
       "build/"
       "out/"
+      "**/.DS_Store"
     ];
   };
 }
