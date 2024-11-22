@@ -6,12 +6,19 @@
     ChangelogVersions = "{\\"v0.2024.11.12.08.02.stable_02\\":true}";
     CrashReportingEnabled = true;
     ExperimentId = "3a0285db-1fb7-4ef3-9d5d-70594ddef4c7";
+    FontName = "\\"JetBrainsMono Nerd Font Mono\\"";
     FontSize = "13.0";
     HasAutoOpenedWelcomeFolder = true;
+    HonorPS1 = false;
+    NewTabPlacement = "\\"AfterAllTabs\\"";
     NotebookFontSize = "14.0";
+    Notifications = "{\\"mode\\":\\"Enabled\\",\\"is_long_running_enabled\\":true,\\"long_running_threshold\\":{\\"secs\\":30,\\"nanos\\":0},\\"is_password_prompt_enabled\\":true}";
     ReceivedReferralTheme = "\\"Inactive\\"";
     SameLinePromptBlockState = "\\"DoNotShow\\"";
+    SavedPrompt = "{\\"CustomChipSelection\\":{\\"chips\\":[{\\"chip\\":\\"CondaEnvironment\\",\\"config\\":{}},{\\"chip\\":\\"VirtualEnvironment\\",\\"config\\":{}},{\\"chip\\":\\"RemoteLogin\\",\\"config\\":{}},{\\"chip\\":\\"WorkingDirectory\\",\\"config\\":{}},{\\"chip\\":\\"ShellGitBranch\\",\\"config\\":{}},{\\"chip\\":\\"GitDirtyFiles\\",\\"config\\":{}},{\\"chip\\":\\"KubernetesContext\\",\\"config\\":{}}],\\"same_line_prompt_enabled\\":false,\\"separator\\":\\"None\\"}}";
+    Spacing = "\\"Normal\\"";
+    SystemTheme = false;
     TelemetryEnabled = true;
-    Theme = "\\"FancyDracula\\"";
-    WelcomeTipsFeaturesUsed = "[{\\"Action\\":\\"SplitPane\\"},{\\"Hint\\":\\"BlockAction\\"},{\\"Action\\":\\"ThemePicker\\"},{\\"Action\\":\\"CommandPalette\\"},{\\"Hint\\":\\"CreateBlock\\"},{\\"Hint\\":\\"BlockSelect\\"}]";
+    Theme = "{\\"Custom\\":{\\"name\\":\\"Nord Theme\\",\\"path\\":\\"/Users/hest/.warp/themes/nord.yaml\\"}}";
+    WelcomeTipsFeaturesUsed = "[{\\"Action\\":\\"SplitPane\\"},{\\"Hint\\":\\"BlockAction\\"},{\\"Action\\":\\"ThemePicker\\"},{\\"Action\\":\\"CommandSearch\\"},{\\"Action\\":\\"CommandPalette\\"},{\\"Hint\\":\\"CreateBlock\\"},{\\"Hint\\":\\"BlockSelect\\"}]";
 }

@@ -17,6 +17,7 @@
     jc
     dotnetPackages.Nuget
     unixtools.watch
+    slack
   ];
 
   programs = {

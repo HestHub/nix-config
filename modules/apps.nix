@@ -131,13 +131,12 @@
 
     onActivation = {
       autoUpdate = false;
-      # 'zap': uninstalls all formulae(and related files) not listed here.
-      # cleanup = "zap";
+      cleanup = "zap";
     };
 
     masApps = {
       Keynote = 409183694;
-      # Xcode = 497799835;
+      MonitorControl-Lite = 1595464182;
       Amphetamine = 937984704;
     };
 
@@ -152,19 +151,16 @@
     ];
 
     casks = [
-      "aldente"
       "bitwarden"
       "docker"
       "insomnia"
-      "iterm2"
       "jetbrains-toolbox"
-      "maccy"
       "microsoft-teams"
       "mqttx"
       "openlens"
       "postman"
       "raycast"
-      "slack"
+      "tailscale"
       "visual-studio-code"
       "warp"
       "zoom"

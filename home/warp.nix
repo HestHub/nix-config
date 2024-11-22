@@ -1,14 +1,14 @@
 { config, lib, pkgs, dots, ... }:
 
 let
-  warpThemePath = "${dots}/warp/nord.yaml";
+  themePath = "${dots}/warp/nord.yaml";
 in
 {
   home.file.".warp/themes/nord.yaml".source = 
     config.lib.file.mkOutOfStoreSymlink ../dotfiles/warp/nord.yaml;
 
   home.activation.linkWarpTheme = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    $DRY_RUN_CMD ln -sf ${warpThemePath} ${config.home.homeDirectory}/.warp/themes
+    $DRY_RUN_CMD ln -sf ${themePath} ${config.home.homeDirectory}/.warp/themes
   '';
 }
 
