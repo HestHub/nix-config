@@ -1,0 +1,17 @@
+{
+    AIAssistantRequestLimitInfo = "{\\"limit\\":100,\\"num_requests_used_since_refresh\\":1,\\"next_refresh_time\\":\\"2024-11-21T10:08:49.016966Z\\",\\"is_unlimited\\":false}";
+    AIRequestLimitInfo = "{\\"limit\\":100,\\"num_requests_used_since_refresh\\":0,\\"next_refresh_time\\":\\"2024-12-21T11:22:19.086995Z\\",\\"is_unlimited\\":false}";
+    AgentModeOnboardingBlockShown = true;
+    AutosuggestionAcceptedCount = 2;
+    ChangelogVersions = "{\\"v0.2024.11.12.08.02.stable_02\\":true}";
+    CrashReportingEnabled = true;
+    ExperimentId = "3a0285db-1fb7-4ef3-9d5d-70594ddef4c7";
+    FontSize = "13.0";
+    HasAutoOpenedWelcomeFolder = true;
+    NotebookFontSize = "14.0";
+    ReceivedReferralTheme = "\\"Inactive\\"";
+    SameLinePromptBlockState = "\\"DoNotShow\\"";
+    TelemetryEnabled = true;
+    Theme = "\\"FancyDracula\\"";
+    WelcomeTipsFeaturesUsed = "[{\\"Action\\":\\"SplitPane\\"},{\\"Hint\\":\\"BlockAction\\"},{\\"Action\\":\\"ThemePicker\\"},{\\"Action\\":\\"CommandPalette\\"},{\\"Hint\\":\\"CreateBlock\\"},{\\"Hint\\":\\"BlockSelect\\"}]";
+}

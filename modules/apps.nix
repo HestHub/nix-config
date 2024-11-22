@@ -4,8 +4,11 @@
     git
     yabai
     skhd
+    tailscale
   ];
   environment.variables.EDITOR = "nvim";
+
+  services.tailscale.enable = true;
 
   services.skhd = {
     enable = true;
@@ -68,6 +71,7 @@
 
     '';
   };
+
 
   services.yabai = {
     enable = true;
@@ -161,7 +165,6 @@
       "postman"
       "raycast"
       "slack"
-      "tailscale"
       "visual-studio-code"
       "warp"
       "zoom"

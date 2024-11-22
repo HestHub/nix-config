@@ -32,6 +32,12 @@ post-fix:
 	if ! grep -qF "/etc/profiles/per-user/${M_USER}/bin" /etc/paths; \
 		then echo "/etc/profiles/per-user/${M_USER}/bin" | sudo tee -a /etc/paths; fi
 
+#	add nix user bin to path if not already present
+	if ! grep -qF "/opt/homebrew/bin" /etc/paths; \
+		then echo "/opt/homebrew/bin" | sudo tee -a /etc/paths; fi
+
+	fish_add_path /opt/homebrew/bin
+
 #	copy iterm config to dynamic profiles if not already present
 #	if [[ ! -f /Users/${M_USER}/Library/Application\ Support/iTerm2/DynamicProfiles/iterm2.json ]];\
 #		then cp ./dotfiles/iterm2.json /Users/${M_USER}/Library/Application\ Support/iTerm2/DynamicProfiles/; fi
