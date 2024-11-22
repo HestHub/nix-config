@@ -40,7 +40,10 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
 
-          home-manager.extraSpecialArgs = inputs;
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+            dots = "/Users/hest/dev/me/nix-config/dotfiles";
+          };
           home-manager.users.hest = import ./home;
         }
       ];

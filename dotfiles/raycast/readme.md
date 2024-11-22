@@ -1,0 +1,1 @@
+Raycast config that needs to be imported manually from raycat options menu.
