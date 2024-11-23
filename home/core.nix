@@ -1,10 +1,10 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    azure-cli
     jq
     diff-so-fancy
     bat
     btop
-    #dust
     eza
     gotop
     wget
@@ -17,7 +17,11 @@
     jc
     dotnetPackages.Nuget
     unixtools.watch
+    ## GUI
     slack
+    postman
+    teams
+    zoom-us
   ];
 
   programs = {

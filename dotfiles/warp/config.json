@@ -16,9 +16,9 @@
     ReceivedReferralTheme = "\\"Inactive\\"";
     SameLinePromptBlockState = "\\"DoNotShow\\"";
     SavedPrompt = "{\\"CustomChipSelection\\":{\\"chips\\":[{\\"chip\\":\\"CondaEnvironment\\",\\"config\\":{}},{\\"chip\\":\\"VirtualEnvironment\\",\\"config\\":{}},{\\"chip\\":\\"RemoteLogin\\",\\"config\\":{}},{\\"chip\\":\\"WorkingDirectory\\",\\"config\\":{}},{\\"chip\\":\\"ShellGitBranch\\",\\"config\\":{}},{\\"chip\\":\\"GitDirtyFiles\\",\\"config\\":{}},{\\"chip\\":\\"KubernetesContext\\",\\"config\\":{}}],\\"same_line_prompt_enabled\\":false,\\"separator\\":\\"None\\"}}";
-    Spacing = "\\"Normal\\"";
+    Spacing = "\\"Compact\\"";
     SystemTheme = false;
     TelemetryEnabled = true;
-    Theme = "{\\"Custom\\":{\\"name\\":\\"Nord Theme\\",\\"path\\":\\"/Users/hest/.warp/themes/nord.yaml\\"}}";
+    Theme = "{\\"Custom\\":{\\"name\\":\\"Nordic Theme\\",\\"path\\":\\"/Users/hest/.warp/themes/nord.yaml\\"}}";
     WelcomeTipsFeaturesUsed = "[{\\"Action\\":\\"SplitPane\\"},{\\"Hint\\":\\"BlockAction\\"},{\\"Action\\":\\"ThemePicker\\"},{\\"Action\\":\\"CommandSearch\\"},{\\"Action\\":\\"CommandPalette\\"},{\\"Hint\\":\\"CreateBlock\\"},{\\"Hint\\":\\"BlockSelect\\"}]";
 }

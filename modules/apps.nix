@@ -151,19 +151,16 @@
     ];
 
     casks = [
-      "bitwarden"
-      "docker"
-      "insomnia"
-      "jetbrains-toolbox"
-      "microsoft-teams"
-      "mqttx"
-      "openlens"
-      "postman"
-      "raycast"
+      "bitwarden" # not available on arm
+      "docker" # easier to manage via desktop
+      "insomnia" # not available on arm
+      "jetbrains-toolbox" # not available on arm
+      "openlens" # not available after 24.05 channel
       "tailscale"
+      "mqttx" # not available on arm
       "visual-studio-code"
-      "warp"
-      "zoom"
+      "warp" # update issues
+      "raycast" # todo
     ];
   };
 }
