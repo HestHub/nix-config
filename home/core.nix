@@ -1,28 +1,36 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    
+    ## CLI
     azure-cli
     jq
     diff-so-fancy
     bat
-    btop
     eza
-    gotop
     wget
-    lf
     git
     tree
     tldr
     glow
     kubectl
-    k9s
     jc
     dotnetPackages.Nuget
     unixtools.watch
+
+    ## TUI
+    btop
+    gotop
+    lf
+    k9s
+    zellij
+
     ## GUI
     slack
     postman
     teams
     zoom-us
+    discord
+    vscode
   ];
 
   programs = {

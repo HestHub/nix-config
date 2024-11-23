@@ -143,20 +143,17 @@
 
     brews = [
       "mas"
-      "tmux"
       "curl" # no not install curl via nixpkgs, it's not working well on macOS!
     ];
 
     casks = [
       "bitwarden" # not available on arm
       "docker" # easier to manage via desktop
-      "insomnia" # not available on arm
       "jetbrains-toolbox" # not available on arm
       "openlens" # not available after 24.05 channel
-      "tailscale"
+      "tailscale" # easier to manage
       "mqttx" # not available on arm
-      "visual-studio-code"
-      "warp" # update issues
+      "warp" # auto-update banner issues
       "raycast" # todo
     ];
   };
