@@ -1,10 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    neovim
-    git
     yabai
     skhd
-    tailscale
   ];
   environment.variables.EDITOR = "nvim";
 

@@ -9,6 +9,7 @@
     gotop
     wget
     lf
+    git
     tree
     tldr
     glow
