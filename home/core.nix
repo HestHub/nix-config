@@ -16,6 +16,7 @@
     jc
     dotnetPackages.Nuget
     unixtools.watch
+    kanata
 
     ## TUI
     btop
@@ -25,6 +26,7 @@
     zellij
 
     ## GUI
+    kitty
     slack
     postman
     teams
