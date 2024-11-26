@@ -24,13 +24,13 @@ in
       enable = true;
 
       shellInit = ''
-        /etc/profiles/per-user/hest/bin/mise activate fish --shims | source
+        /Users/hest/.local/bin/mise activate fish --shims | source
       '';
 
       interactiveShellInit = ''
         insulter
 
-        /etc/profiles/per-user/hest/bin/mise activate fish | source
+        /Users/hest/.local/bin/mise activate fish | source
 
         set fish_greeting # Disable greeting
         abbr -a -- .. "cd .."

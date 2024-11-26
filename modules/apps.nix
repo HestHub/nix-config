@@ -153,7 +153,7 @@
       "openlens" # not available after 24.05 channel
       "tailscale" # easier to manage
       "mqttx" # not available on arm
-      "warp" # auto-update banner issues
+      "microsoft-teams"
       "raycast" # todo
     ];
   };

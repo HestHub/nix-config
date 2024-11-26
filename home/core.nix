@@ -16,8 +16,6 @@
     jc
     dotnetPackages.Nuget
     unixtools.watch
-    kanata
-
     ## TUI
     btop
     gotop
@@ -25,11 +23,11 @@
     k9s
     zellij
 
+    wezterm
     ## GUI
     kitty
     slack
     postman
-    teams
     zoom-us
     discord
     vscode

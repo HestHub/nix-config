@@ -9,6 +9,7 @@
 }: {
   programs.mise = {
     enable = true;
+    enableFishIntegration = true;
     globalConfig = {
       tools = {
         go = "latest";

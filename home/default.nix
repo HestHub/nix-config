@@ -3,11 +3,9 @@
 in {
   imports = [
     ./core.nix
-    ./mise.nix
     ./git.nix
     ./fish.nix
     ./k9s.nix
-    ./warp.nix
   ];
   home = {
     username = "${username}";
