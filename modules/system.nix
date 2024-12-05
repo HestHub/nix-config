@@ -134,7 +134,7 @@
     packages = with pkgs; [
       material-design-icons
       font-awesome
-      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+      fira-code 
     ];
   };
 }

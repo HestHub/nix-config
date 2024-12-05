@@ -153,8 +153,9 @@
       "openlens" # not available after 24.05 channel
       "tailscale" # easier to manage
       "mqttx" # not available on arm
-      "microsoft-teams"
+      "microsoft-teams" # old version only on nix
       "raycast" # todo
+      "sanesidebuttons"
     ];
   };
 }

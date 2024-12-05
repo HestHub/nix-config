@@ -16,6 +16,8 @@
     jc
     dotnetPackages.Nuget
     unixtools.watch
+    tinygo
+    wasmtime
     ## TUI
     btop
     gotop
