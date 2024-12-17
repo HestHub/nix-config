@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    
     ## CLI
     azure-cli
     jq
@@ -18,12 +17,23 @@
     unixtools.watch
     tinygo
     wasmtime
+    docker
+    colima
+    docker-credential-helpers
+    kubelogin
+    cbonsai
+    fzf
+    gping
     ## TUI
     btop
     gotop
     lf
     k9s
     zellij
+    lazydocker
+    fx
+    jqp
+    diskonaut
 
     wezterm
     ## GUI

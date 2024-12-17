@@ -148,7 +148,6 @@
 
     casks = [
       "bitwarden" # not available on arm
-      "docker" # easier to manage via desktop
       "jetbrains-toolbox" # not available on arm
       "openlens" # not available after 24.05 channel
       "tailscale" # easier to manage
@@ -156,6 +155,7 @@
       "microsoft-teams" # old version only on nix
       "raycast" # todo
       "sanesidebuttons"
+      "steam"
     ];
   };
 }
