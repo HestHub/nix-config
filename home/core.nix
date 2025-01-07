@@ -11,6 +11,7 @@
     tree
     tldr
     glow
+    # kanata
     kubectl
     jc
     dotnetPackages.Nuget
@@ -24,6 +25,7 @@
     cbonsai
     fzf
     gping
+    watchexec
     ## TUI
     btop
     gotop
@@ -38,6 +40,7 @@
     wezterm
     ## GUI
     kitty
+    # ghostty
     slack
     postman
     zoom-us
@@ -69,6 +72,10 @@
     ssh = {
       enable = true;
       addKeysToAgent = "yes";
+    };
+
+    zoxide = {
+      enable = true;
     };
 
     navi.enable = true;

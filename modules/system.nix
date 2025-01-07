@@ -56,11 +56,12 @@
         "com.apple.keyboard.fnState" = true; # enable function keys
         AppleInterfaceStyle = "Dark"; # dark mode
         AppleKeyboardUIMode = 3; # Mode 3 enables full keyboard control.
-        ApplePressAndHoldEnabled = true; # enable press and hold
+        ApplePressAndHoldEnabled = false; # enable press and hold
 
         InitialKeyRepeat = 15; # normal minimum is 15 (225 ms), maximum is 120 (1800 ms)
         # sets how fast it repeats once it starts.
         KeyRepeat = 3; # normal minimum is 2 (30 ms), maximum is 120 (1800 ms)
+
 
         NSAutomaticCapitalizationEnabled = false; # disable auto capitalization(自动大写)
         NSAutomaticDashSubstitutionEnabled = false; # disable auto dash substitution(智能破折号替换)

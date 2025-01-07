@@ -2,8 +2,6 @@ let
   insultfunction = builtins.readFile ./fish-functions/insulter.fish;
 in
   {
-    config,
-    lib,
     pkgs,
     ...
   }: {
@@ -17,7 +15,6 @@ in
       fishPlugins.fzf
       fishPlugins.grc
       fishPlugins.sponge
-      fishPlugins.z
     ];
 
     programs.fish = {
@@ -38,10 +35,13 @@ in
         abbr -a -- .... "cd ../../.."
         abbr -a -- ..... "cd ../../../.."
         abbr -a -- - "cd -"
+        /etc/profiles/per-user/hest/bin/zoxide init fish --cmd cd | source  
       '';
       shellAbbrs = {
         k = "kubectl";
         g = "git";
+        cd = "z";
+        j = "z";
         cat = "bat";
         vi = "nvim";
         vim = "nvim";
@@ -99,10 +99,6 @@ in
         {
           name = "sponge";
           src = pkgs.fishPlugins.sponge.src;
-        }
-        {
-          name = "z";
-          src = pkgs.fishPlugins.z.src;
         }
       ];
     };

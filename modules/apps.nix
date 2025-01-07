@@ -156,6 +156,8 @@
       "raycast" # todo
       "sanesidebuttons"
       "steam"
+      "keymapp"
+      "ghostty"
     ];
   };
 }
