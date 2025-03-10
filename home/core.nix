@@ -11,6 +11,7 @@
     tree
     tldr
     glow
+    gh
     # kanata
     kubectl
     jc
@@ -26,6 +27,7 @@
     fzf
     gping
     watchexec
+    cargo-nextest
     ## TUI
     btop
     gotop
@@ -35,11 +37,8 @@
     lazydocker
     fx
     jqp
-    diskonaut
 
-    wezterm
     ## GUI
-    kitty
     # ghostty
     slack
     postman

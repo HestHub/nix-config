@@ -157,6 +157,7 @@
       "sanesidebuttons"
       "steam"
       "keymapp"
+      "krita"
       "ghostty"
     ];
   };

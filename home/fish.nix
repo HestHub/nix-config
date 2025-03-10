@@ -30,12 +30,12 @@ in
         /Users/hest/.local/bin/mise activate fish | source
 
         set fish_greeting # Disable greeting
+
         abbr -a -- .. "cd .."
         abbr -a -- ... "cd ../.."
         abbr -a -- .... "cd ../../.."
         abbr -a -- ..... "cd ../../../.."
         abbr -a -- - "cd -"
-        /etc/profiles/per-user/hest/bin/zoxide init fish --cmd cd | source  
       '';
       shellAbbrs = {
         k = "kubectl";
