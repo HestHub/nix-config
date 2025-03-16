@@ -1,20 +1,14 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     ## CLI
-    azure-cli
     jq
-    diff-so-fancy
-    bat
-    eza
     wget
     git
-    tree
+    tre-command
     tldr
-    glow
     gh
     # kanata
     kubectl
-    jc
     dotnetPackages.Nuget
     unixtools.watch
     tinygo
@@ -23,28 +17,21 @@
     colima
     docker-credential-helpers
     kubelogin
-    cbonsai
     fzf
-    gping
     watchexec
     cargo-nextest
     ## TUI
-    btop
     gotop
     lf
     k9s
     zellij
     lazydocker
-    fx
-    jqp
 
     ## GUI
-    # ghostty
     slack
     postman
     zoom-us
     discord
-    vscode
   ];
 
   programs = {
